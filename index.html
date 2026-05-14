@@ -1,55 +1,286 @@
-<h2 class="sr-only">Find the Persistent Paths — interactive attendee worksheet with three phases: classify access paths, kill three after the inject, and the six-months-later time leap.</h2>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1F3A5F">
+<title>Find the Persistent Paths — Vendor Access Lab</title>
 <style>
-.phase-pill { display:inline-block; padding:4px 10px; border-radius:999px; font-size:11px; font-weight:500; }
-.path-row { display:flex; align-items:center; gap:10px; padding:10px 12px; border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-md); margin-bottom:6px; background:var(--color-background-primary); }
-.path-row.circled { border:2px solid #A32D2D; background:#FCEBEB; }
-.path-num { font-weight:500; font-size:13px; color:var(--color-text-secondary); min-width:18px; }
-.path-text { flex:1; font-size:13px; line-height:1.4; }
-.sticker-row { display:flex; gap:4px; flex-wrap:wrap; }
-.sticker-btn { width:22px; height:22px; border-radius:50%; border:0.5px solid var(--color-border-secondary); cursor:pointer; padding:0; transition:transform .12s; font-size:0; }
-.sticker-btn:hover { transform:scale(1.15); }
-.sticker-btn.selected { box-shadow:0 0 0 2px var(--color-text-primary); }
-.sticker-red { background:#A32D2D; }
-.sticker-blue { background:#185FA5; }
-.sticker-yellow { background:#BA7517; }
-.sticker-purple { background:#534AB7; }
-.sticker-tomb { background:#444441; color:#fff; font-size:11px; line-height:22px; text-align:center; }
-.days-input { width:60px; padding:4px 6px; font-size:12px; border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-md); }
-.days-quick { display:flex; gap:3px; margin-top:4px; }
-.days-quick button { padding:2px 6px; font-size:10px; background:transparent; border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-md); cursor:pointer; color:var(--color-text-secondary); }
-.days-quick button.active { background:var(--color-background-info); color:var(--color-text-info); border-color:var(--color-border-info); }
-.kill-card { padding:10px 12px; border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-md); margin-bottom:8px; background:var(--color-background-primary); }
-.kill-card.selected { border:2px solid #A32D2D; background:#FCEBEB; }
-.locked-note { padding:16px; background:var(--color-background-secondary); border-radius:var(--border-radius-md); text-align:center; color:var(--color-text-secondary); font-size:13px; }
-.budget-bar { height:8px; background:var(--color-background-secondary); border-radius:4px; overflow:hidden; margin-top:6px; }
-.budget-fill { height:100%; background:#BA7517; transition:width .3s; }
-.budget-fill.over { background:#A32D2D; }
-.section-h { font-size:13px; font-weight:500; margin:0 0 6px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:0.04em; }
-.legend-strip { display:flex; gap:8px; flex-wrap:wrap; padding:8px 10px; background:var(--color-background-secondary); border-radius:var(--border-radius-md); margin-bottom:12px; font-size:11px; }
-.legend-item { display:flex; align-items:center; gap:4px; }
-.legend-dot { width:10px; height:10px; border-radius:50%; }
-.action-btn { display:block; width:100%; padding:12px; font-size:14px; font-weight:500; border:0.5px solid var(--color-border-secondary); border-radius:var(--border-radius-md); background:var(--color-background-primary); cursor:pointer; margin-top:12px; }
-.action-btn.primary { background:#A32D2D; color:#fff; border-color:#A32D2D; }
-.action-btn:disabled { opacity:0.4; cursor:not-allowed; }
-.hunt-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; margin-top:8px; }
-.hunt-cell { padding:8px 6px; border:1px solid #BA7517; border-radius:var(--border-radius-md); text-align:center; background:#FAEEDA; font-size:11px; }
-.hunt-cell input { width:100%; margin-top:4px; padding:3px 4px; font-size:11px; border:0.5px solid var(--color-border-tertiary); border-radius:4px; background:var(--color-background-primary); }
-.hunt-cell label { color:#633806; font-weight:500; }
-.time-leap-box { padding:14px; border:2px solid #A32D2D; background:#FCEBEB; border-radius:var(--border-radius-md); margin-top:12px; }
-.tab-row { display:flex; gap:4px; margin-bottom:14px; padding:4px; background:var(--color-background-secondary); border-radius:var(--border-radius-md); }
-.tab-btn { flex:1; padding:8px 4px; font-size:12px; font-weight:500; background:transparent; border:none; border-radius:var(--border-radius-md); cursor:pointer; color:var(--color-text-secondary); }
-.tab-btn.active { background:var(--color-background-primary); color:var(--color-text-primary); }
-.tab-btn:disabled { opacity:0.4; cursor:not-allowed; }
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f0;
+  --bg-tertiary: #ebeae3;
+  --text-primary: #2c2c2a;
+  --text-secondary: #5f5e5a;
+  --text-tertiary: #888780;
+  --text-info: #185fa5;
+  --text-danger: #a32d2d;
+  --border-tertiary: rgba(0,0,0,0.12);
+  --border-secondary: rgba(0,0,0,0.25);
+  --border-info: #185fa5;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #1f1e1c;
+    --bg-secondary: #2a2926;
+    --bg-tertiary: #161514;
+    --text-primary: #e8e6dd;
+    --text-secondary: #b4b2a9;
+    --text-tertiary: #888780;
+    --border-tertiary: rgba(255,255,255,0.15);
+    --border-secondary: rgba(255,255,255,0.3);
+  }
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+  padding: 12px;
+  max-width: 720px;
+  margin: 0 auto;
+  padding-bottom: 80px;
+}
+
+h1 { font-size: 20px; font-weight: 600; margin: 0; }
+h2 { font-size: 16px; font-weight: 500; margin: 0; }
+p { margin: 0; }
+
+.container {
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  border: 0.5px solid var(--border-tertiary);
+}
+
+.header-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 4px; gap: 8px;
+}
+
+.phase-pill {
+  display: inline-block; padding: 4px 10px; border-radius: 999px;
+  font-size: 11px; font-weight: 500;
+  background: #e6f1fb; color: #185fa5;
+}
+
+.subtitle {
+  font-size: 12px; color: var(--text-secondary);
+  line-height: 1.4; margin: 0 0 14px;
+}
+
+.tab-row {
+  display: flex; gap: 4px; margin-bottom: 14px;
+  padding: 4px; background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+}
+.tab-btn {
+  flex: 1; padding: 10px 4px; font-size: 13px; font-weight: 500;
+  background: transparent; border: none; border-radius: var(--radius-md);
+  cursor: pointer; color: var(--text-secondary);
+  font-family: inherit;
+}
+.tab-btn.active { background: var(--bg-primary); color: var(--text-primary); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+.tab-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.legend-strip {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  padding: 10px; background: var(--bg-secondary);
+  border-radius: var(--radius-md); margin-bottom: 14px; font-size: 11px;
+}
+.legend-item { display: flex; align-items: center; gap: 5px; }
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+
+.section-h {
+  font-size: 12px; font-weight: 600; margin: 0 0 8px;
+  color: var(--text-secondary); text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.path-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px; border: 0.5px solid var(--border-tertiary);
+  border-radius: var(--radius-md); margin-bottom: 6px;
+  background: var(--bg-primary);
+  transition: background 0.15s, border-color 0.15s;
+}
+.path-row.circled { border: 2px solid #a32d2d; background: rgba(163,45,45,0.08); padding: 11px; }
+
+.path-num {
+  font-weight: 500; font-size: 13px; color: var(--text-secondary);
+  min-width: 20px; padding-top: 2px;
+}
+.path-text { flex: 1; font-size: 14px; line-height: 1.4; }
+
+.sticker-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.sticker-btn {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1px solid var(--border-secondary); cursor: pointer;
+  padding: 0; transition: transform 0.12s, box-shadow 0.12s;
+  font-size: 0; touch-action: manipulation;
+}
+.sticker-btn:active { transform: scale(0.9); }
+.sticker-btn.selected {
+  box-shadow: 0 0 0 3px var(--text-primary);
+  transform: scale(1.08);
+}
+.sticker-red { background: #a32d2d; }
+.sticker-blue { background: #185fa5; }
+.sticker-yellow { background: #ba7517; }
+.sticker-purple { background: #534ab7; }
+.sticker-tomb { background: #444441; color: #fff; font-size: 13px; line-height: 28px; text-align: center; font-weight: 600; }
+
+.days-quick { display: flex; gap: 4px; flex-wrap: wrap; }
+.days-quick button {
+  padding: 5px 9px; font-size: 11px; background: transparent;
+  border: 0.5px solid var(--border-tertiary); border-radius: var(--radius-sm);
+  cursor: pointer; color: var(--text-secondary);
+  font-family: inherit; touch-action: manipulation;
+}
+.days-quick button.active {
+  background: #e6f1fb; color: #185fa5; border-color: #185fa5;
+  font-weight: 500;
+}
+
+.path-controls {
+  display: flex; align-items: center; gap: 8px; margin-top: 8px;
+  flex-wrap: wrap;
+}
+.controls-label { font-size: 11px; color: var(--text-secondary); }
+
+.hunt-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+  margin-top: 8px;
+}
+@media (max-width: 380px) {
+  .hunt-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.hunt-cell {
+  padding: 10px 6px; border: 1px solid #ba7517;
+  border-radius: var(--radius-sm); text-align: center;
+  background: rgba(186,117,23,0.10); font-size: 12px;
+}
+.hunt-cell label { color: #854f0b; font-weight: 600; display: block; }
+.hunt-cell input {
+  width: 100%; margin-top: 5px; padding: 5px 6px; font-size: 12px;
+  border: 0.5px solid var(--border-tertiary); border-radius: 4px;
+  background: var(--bg-primary); color: var(--text-primary);
+  font-family: inherit;
+}
+
+@media (prefers-color-scheme: dark) {
+  .hunt-cell { background: rgba(186,117,23,0.18); }
+  .hunt-cell label { color: #fac775; }
+  .phase-pill { background: rgba(24,95,165,0.25); color: #85b7eb; }
+  .days-quick button.active { background: rgba(24,95,165,0.25); color: #85b7eb; }
+}
+
+.action-btn {
+  display: block; width: 100%; padding: 14px;
+  font-size: 15px; font-weight: 500;
+  border: 0.5px solid var(--border-secondary);
+  border-radius: var(--radius-md);
+  background: var(--bg-primary); color: var(--text-primary);
+  cursor: pointer; margin-top: 14px;
+  font-family: inherit;
+  touch-action: manipulation;
+}
+.action-btn.primary { background: #a32d2d; color: #fff; border-color: #a32d2d; }
+.action-btn.primary:active { background: #791f1f; }
+.action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.locked-note {
+  padding: 24px 16px; background: var(--bg-secondary);
+  border-radius: var(--radius-md); text-align: center;
+  color: var(--text-secondary); font-size: 14px;
+}
+.locked-note .lock-icon { font-size: 32px; display: block; margin-bottom: 10px; }
+
+.kill-card {
+  padding: 12px; border: 0.5px solid var(--border-tertiary);
+  border-radius: var(--radius-md); margin-bottom: 8px;
+  background: var(--bg-primary); cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  touch-action: manipulation;
+}
+.kill-card.selected { border: 2px solid #a32d2d; background: rgba(163,45,45,0.08); padding: 11px; }
+.kill-card-row { display: flex; justify-content: space-between; align-items: start; gap: 8px; }
+.kill-text { flex: 1; font-size: 14px; }
+.kill-cost { font-size: 12px; color: var(--text-secondary); white-space: nowrap; padding-top: 2px; }
+
+.inject-warning {
+  padding: 14px; background: rgba(163,45,45,0.10);
+  border-left: 4px solid #a32d2d;
+  border-radius: var(--radius-md); margin-bottom: 14px;
+}
+.inject-warning p:first-child { font-weight: 500; color: #a32d2d; margin-bottom: 4px; }
+.inject-warning p { font-size: 13px; color: var(--text-primary); }
+
+.budget-bar {
+  height: 10px; background: var(--bg-secondary);
+  border-radius: 5px; overflow: hidden; margin-top: 8px;
+}
+.budget-fill {
+  height: 100%; background: #ba7517; transition: width 0.3s, background 0.3s;
+}
+.budget-fill.over { background: #a32d2d; }
+.budget-status { font-size: 13px; margin: 8px 0 14px; }
+
+.time-leap-box {
+  padding: 16px; border: 2px solid #a32d2d;
+  background: rgba(163,45,45,0.08);
+  border-radius: var(--radius-md); margin-bottom: 14px;
+}
+.time-leap-box p:first-child {
+  font-weight: 600; color: #a32d2d; font-size: 15px; margin-bottom: 6px;
+}
+.time-leap-box p { font-size: 14px; line-height: 1.5; }
+
+.count-card {
+  padding: 18px; background: var(--bg-secondary);
+  border-radius: var(--radius-md); margin-top: 14px;
+  text-align: center;
+}
+.count-card .count-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
+.count-card .count-number { font-size: 32px; font-weight: 500; }
+
+.closing-q {
+  margin: 22px 0 0; padding-top: 16px;
+  border-top: 0.5px solid var(--border-tertiary);
+  font-size: 15px; font-weight: 500; text-align: center;
+  line-height: 1.5;
+}
+
+.unlock-row {
+  display: flex; gap: 6px; margin-top: 12px;
+  padding-top: 12px; border-top: 0.5px dashed var(--border-tertiary);
+}
+.unlock-row p { font-size: 11px; color: var(--text-tertiary); flex: 1; }
+.unlock-btn {
+  font-size: 11px; padding: 4px 8px; background: transparent;
+  border: 0.5px solid var(--border-tertiary); border-radius: 4px;
+  color: var(--text-tertiary); cursor: pointer; font-family: inherit;
+}
 </style>
+</head>
+<body>
+<div class="container">
 
-<div style="padding:8px 0 0;">
-
-<div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px;">
-  <h1 style="margin:0; font-size:18px;">Find the persistent paths</h1>
-  <span id="phase-indicator" class="phase-pill" style="background:var(--color-background-info); color:var(--color-text-info);">Phase 1 of 3</span>
+<div class="header-row">
+  <h1>Find the persistent paths</h1>
+  <span id="phase-indicator" class="phase-pill">Phase 1 of 3</span>
 </div>
-<p style="margin:0 0 14px; font-size:12px; color:var(--color-text-secondary); line-height:1.4;">Post-incident review of a recently modernized utility. Three weeks ago a substation emergency required OEM remote support. Today you are reviewing what remains.</p>
+<p class="subtitle">Post-incident review of a recently modernized utility. Three weeks ago a substation emergency required OEM remote support. Today you are reviewing what remains.</p>
 
 <div class="tab-row">
   <button class="tab-btn active" data-phase="1" onclick="showPhase(1)">1. Classify</button>
@@ -59,16 +290,16 @@
 
 <div id="phase-1">
   <div class="legend-strip">
-    <div class="legend-item"><span class="legend-dot" style="background:#A32D2D;"></span>Persistent</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#185FA5;"></span>Inherited</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#BA7517;"></span>Emergency</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#534AB7;"></span>Transitive</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#a32d2d;"></span>Persistent</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#185fa5;"></span>Inherited</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#ba7517;"></span>Emergency</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#534ab7;"></span>Transitive</div>
     <div class="legend-item"><span class="legend-dot" style="background:#444441;"></span>Should be dead</div>
   </div>
-  <p class="section-h">Tap one sticker per path. Tap a days-active pill (or type a number). Two paths are decoys — skip them.</p>
+  <p class="section-h">Tap one sticker per path. Tap a days-active pill. Two paths are decoys — skip them.</p>
   <div id="path-list"></div>
 
-  <p class="section-h" style="margin-top:18px;">Hidden risk hunt — find six ⊕ on the map. One is a decoy.</p>
+  <p class="section-h" style="margin-top:20px;">Hidden risk hunt — find six ⊕ on the map. One is a decoy.</p>
   <div class="hunt-grid" id="hunt-grid"></div>
 
   <button class="action-btn primary" id="ready-btn" onclick="markReady()">I'm ready — waiting for inject</button>
@@ -76,18 +307,22 @@
 
 <div id="phase-2" style="display:none;">
   <div class="locked-note" id="phase-2-locked">
-    <p style="margin:0 0 8px; font-weight:500;">🔒 Sealed until the inject is opened</p>
-    <p style="margin:0;">Your instructor will unlock this phase from the projector.</p>
+    <span class="lock-icon">🔒</span>
+    <p style="margin:0 0 8px; font-weight:500;">Sealed until inject is opened</p>
+    <p>Your instructor will unlock this from the projector.</p>
+    <div class="unlock-row">
+      <p>Solo practice? Unlock manually:</p>
+      <button class="unlock-btn" onclick="unlockPhase2()">Unlock phase 2</button>
+    </div>
   </div>
   <div id="phase-2-open" style="display:none;">
-    <div style="padding:12px; background:#FCEBEB; border-radius:var(--border-radius-md); margin-bottom:14px;">
-      <p style="margin:0 0 4px; font-weight:500; color:#791F1F;">⚠ The OEM has been compromised.</p>
-      <p style="margin:0; font-size:12px; color:#791F1F;">Credentials, signing keys, and active support sessions in attacker hands. The map has not changed. The threat has.</p>
+    <div class="inject-warning">
+      <p>⚠ The OEM has been compromised.</p>
+      <p>Credentials, signing keys, and active support sessions in attacker hands. The map has not changed. The threat has.</p>
     </div>
-    <p class="section-h" style="margin-top:8px;">Budget: 8 hours of visibility loss. Tap up to three paths to KILL.</p>
-    <p style="font-size:11px; color:var(--color-text-secondary); margin:0 0 8px;">Each kill carries a visibility cost. Spend wisely.</p>
+    <p class="section-h">Budget: 8 hours of visibility loss. Tap up to three paths to KILL.</p>
     <div class="budget-bar"><div class="budget-fill" id="budget-fill" style="width:0;"></div></div>
-    <p style="font-size:12px; margin:6px 0 12px;"><span id="budget-used">0</span> / 8 hours spent — <span id="kill-count">0</span>/3 chosen</p>
+    <p class="budget-status"><span id="budget-used">0</span> / 8 hours spent — <span id="kill-count">0</span>/3 chosen</p>
     <div id="kill-list"></div>
     <button class="action-btn primary" id="submit-kills" onclick="submitKills()" disabled>Lock in my three kills</button>
   </div>
@@ -95,20 +330,25 @@
 
 <div id="phase-3" style="display:none;">
   <div class="locked-note" id="phase-3-locked">
-    <p style="margin:0 0 8px; font-weight:500;">🔒 Sealed until time leap inject</p>
-    <p style="margin:0;">Your instructor will unlock this from the projector.</p>
+    <span class="lock-icon">🔒</span>
+    <p style="margin:0 0 8px; font-weight:500;">Sealed until time leap inject</p>
+    <p>Your instructor will unlock this from the projector.</p>
+    <div class="unlock-row">
+      <p>Solo practice? Unlock manually:</p>
+      <button class="unlock-btn" onclick="unlockPhase3()">Unlock phase 3</button>
+    </div>
   </div>
   <div id="phase-3-open" style="display:none;">
     <div class="time-leap-box">
-      <p style="margin:0 0 6px; font-weight:500; color:#791F1F; font-size:14px;">TIME LEAP — 6 months later</p>
-      <p style="margin:0; font-size:13px; line-height:1.5;">No incident occurred. The OEM contract was renewed. Nothing was decommissioned outside the three you killed. <strong>Tap every path still active today.</strong></p>
+      <p>TIME LEAP — 6 months later</p>
+      <p>No incident occurred. The OEM contract was renewed. Nothing was decommissioned outside the three you killed. <strong>Tap every path still active today.</strong></p>
     </div>
-    <div id="time-leap-list" style="margin-top:14px;"></div>
-    <div style="padding:14px; background:var(--color-background-secondary); border-radius:var(--border-radius-md); margin-top:14px; text-align:center;">
-      <p style="margin:0 0 4px; font-size:12px; color:var(--color-text-secondary);">Paths still active 6 months later</p>
-      <p style="margin:0; font-size:28px; font-weight:500;" id="still-active-count">0 / 0</p>
+    <div id="time-leap-list"></div>
+    <div class="count-card">
+      <p class="count-label">Paths still active 6 months later</p>
+      <p class="count-number" id="still-active-count">0 / 0</p>
     </div>
-    <p style="margin:18px 0 0; font-size:14px; font-weight:500; text-align:center; padding-top:14px; border-top:0.5px solid var(--color-border-tertiary); line-height:1.5;">For how many of your kills does the operational cost outlast the threat?</p>
+    <p class="closing-q">For how many of your kills does the operational cost outlast the threat?</p>
   </div>
 </div>
 
@@ -128,12 +368,15 @@ const PATHS = [
   {id:10, text:'Vendor user VPN with corporate AD federation', decoy:false, killCost:4},
   {id:11, text:'UPS battery monitoring SNMP poller', decoy:true, killCost:0},
 ];
-const STICKERS = [['red','#A32D2D'],['blue','#185FA5'],['yellow','#BA7517'],['purple','#534AB7'],['tomb','#444441']];
+const STICKERS = [['red','#a32d2d'],['blue','#185fa5'],['yellow','#ba7517'],['purple','#534ab7'],['tomb','#444441']];
 const DAYS_QUICK = ['21','180','365','unknown'];
 
 const state = {
-  stickers: {}, days: {}, hunt: {}, kills: new Set(), stillActive: new Set(), phase2Open:false, phase3Open:false
+  stickers: {}, days: {}, hunt: {}, kills: new Set(), stillActive: new Set(),
+  phase2Open: false, phase3Open: false
 };
+
+function escape(s){ return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
 function renderPaths(){
   const wrap = document.getElementById('path-list');
@@ -141,48 +384,48 @@ function renderPaths(){
     const sticker = state.stickers[p.id] || '';
     const days = state.days[p.id] || '';
     const stickerBtns = STICKERS.map(([key,color]) =>
-      '<button class="sticker-btn sticker-'+key+(sticker===key?' selected':'')+'" data-path="'+p.id+'" data-sticker="'+key+'" onclick="setSticker('+p.id+',\''+key+'\')" aria-label="'+key+'"></button>'
+      `<button class="sticker-btn sticker-${key}${sticker===key?' selected':''}" onclick="setSticker(${p.id},'${key}')" aria-label="${key}">${key==='tomb'?'☠':''}</button>`
     ).join('');
     const quickBtns = DAYS_QUICK.map(d =>
-      '<button onclick="setDays('+p.id+',\''+d+'\')" class="'+(days===d?'active':'')+'">'+d+'</button>'
+      `<button onclick="setDays(${p.id},'${d}')" class="${days===d?'active':''}">${d}</button>`
     ).join('');
-    return '<div class="path-row" data-pid="'+p.id+'">'+
-      '<span class="path-num">'+p.id+'</span>'+
-      '<div style="flex:1;">'+
-        '<div class="path-text">'+p.text+'</div>'+
-        '<div style="display:flex; align-items:center; gap:8px; margin-top:6px; flex-wrap:wrap;">'+
-          '<div class="sticker-row">'+stickerBtns+'</div>'+
-          '<div style="font-size:11px; color:var(--color-text-secondary);">Days active:</div>'+
-          '<div class="days-quick">'+quickBtns+'</div>'+
-        '</div>'+
-      '</div>'+
-    '</div>';
+    return `<div class="path-row">
+      <span class="path-num">${p.id}</span>
+      <div style="flex:1;">
+        <div class="path-text">${escape(p.text)}</div>
+        <div class="path-controls">
+          <div class="sticker-row">${stickerBtns}</div>
+        </div>
+        <div class="path-controls">
+          <span class="controls-label">Days active:</span>
+          <div class="days-quick">${quickBtns}</div>
+        </div>
+      </div>
+    </div>`;
   }).join('');
 }
+
 function renderHunt(){
   const wrap = document.getElementById('hunt-grid');
   const items = [1,2,3,4,5,'decoy'];
   wrap.innerHTML = items.map(n => {
     const v = state.hunt[n] || '';
     const label = n==='decoy' ? '⊕ decoy' : '⊕ '+n;
-    return '<div class="hunt-cell"><label>'+label+'</label>'+
-      '<input type="text" placeholder="one word" value="'+v+'" oninput="setHunt(\''+n+'\', this.value)" /></div>';
+    return `<div class="hunt-cell"><label>${label}</label>
+      <input type="text" placeholder="one word" value="${escape(v)}" oninput="setHunt('${n}', this.value)" /></div>`;
   }).join('');
 }
+
 function setSticker(pid, key){ state.stickers[pid] = (state.stickers[pid]===key) ? null : key; renderPaths(); }
 function setDays(pid, d){ state.days[pid] = (state.days[pid]===d) ? '' : d; renderPaths(); }
 function setHunt(n, v){ state.hunt[n] = v; }
+
 function markReady(){
   const btn = document.getElementById('ready-btn');
   btn.textContent = '✓ Ready — waiting for inject';
   btn.disabled = true;
   btn.style.opacity = '0.6';
   document.querySelector('[data-phase="2"]').disabled = false;
-  unlockListener();
-}
-function unlockListener(){
-  // Phase 2 unlocks via projector trigger (in real classroom: instructor types code into a parent page).
-  // For solo/preview, also unlock phase 2 button after marking ready.
 }
 
 function showPhase(n){
@@ -191,46 +434,47 @@ function showPhase(n){
     document.querySelector('[data-phase="'+i+'"]').classList.toggle('active', i===n);
   }
   document.getElementById('phase-indicator').textContent = 'Phase '+n+' of 3';
-  if(n===2) renderKills();
-  if(n===3) renderTimeLeap();
+  if(n===2 && state.phase2Open) renderKills();
+  if(n===3 && state.phase3Open) renderTimeLeap();
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
-window.unlockPhase2 = function(){
+function unlockPhase2(){
   state.phase2Open = true;
-  document.getElementById('phase-2-locked').style.display='none';
-  document.getElementById('phase-2-open').style.display='block';
+  document.getElementById('phase-2-locked').style.display = 'none';
+  document.getElementById('phase-2-open').style.display = 'block';
   document.querySelector('[data-phase="2"]').disabled = false;
   showPhase(2);
-};
-window.unlockPhase3 = function(){
+}
+
+function unlockPhase3(){
   state.phase3Open = true;
-  document.getElementById('phase-3-locked').style.display='none';
-  document.getElementById('phase-3-open').style.display='block';
+  document.getElementById('phase-3-locked').style.display = 'none';
+  document.getElementById('phase-3-open').style.display = 'block';
   document.querySelector('[data-phase="3"]').disabled = false;
   showPhase(3);
-};
-
-// Demo: auto-unlock both after marking ready, so attendees can preview solo.
-const originalReady = window.markReady;
+}
 
 function renderKills(){
   const wrap = document.getElementById('kill-list');
   const realPaths = PATHS.filter(p=>!p.decoy);
   wrap.innerHTML = realPaths.map(p => {
     const selected = state.kills.has(p.id);
-    return '<div class="kill-card'+(selected?' selected':'')+'" onclick="toggleKill('+p.id+')">'+
-      '<div style="display:flex; justify-content:space-between; align-items:start; gap:8px;">'+
-        '<div style="flex:1; font-size:13px;">'+p.text+'</div>'+
-        '<div style="font-size:11px; color:var(--color-text-secondary); white-space:nowrap;">'+p.killCost+'h cost</div>'+
-      '</div></div>';
+    return `<div class="kill-card${selected?' selected':''}" onclick="toggleKill(${p.id})">
+      <div class="kill-card-row">
+        <div class="kill-text">${escape(p.text)}</div>
+        <div class="kill-cost">${p.killCost}h cost</div>
+      </div></div>`;
   }).join('');
   updateBudget();
 }
+
 function toggleKill(pid){
   if(state.kills.has(pid)) state.kills.delete(pid);
   else if(state.kills.size<3) state.kills.add(pid);
   renderKills();
 }
+
 function updateBudget(){
   let used = 0;
   state.kills.forEach(id => { const p = PATHS.find(x=>x.id===id); used += p.killCost; });
@@ -241,6 +485,7 @@ function updateBudget(){
   fill.classList.toggle('over', used>8);
   document.getElementById('submit-kills').disabled = state.kills.size !== 3;
 }
+
 function submitKills(){
   const btn = document.getElementById('submit-kills');
   btn.textContent = '✓ Locked in';
@@ -253,34 +498,33 @@ function renderTimeLeap(){
   const realPaths = PATHS.filter(p=>!p.decoy && !state.kills.has(p.id));
   wrap.innerHTML = realPaths.map(p => {
     const active = state.stillActive.has(p.id);
-    return '<div class="path-row'+(active?' circled':'')+'" onclick="toggleActive('+p.id+')" style="cursor:pointer;">'+
-      '<span class="path-num">'+p.id+'</span>'+
-      '<div class="path-text">'+p.text+'</div>'+
-      '<div style="font-size:18px;">'+(active?'⭕':'○')+'</div>'+
-    '</div>';
+    return `<div class="path-row${active?' circled':''}" onclick="toggleActive(${p.id})" style="cursor:pointer;">
+      <span class="path-num">${p.id}</span>
+      <div class="path-text">${escape(p.text)}</div>
+      <div style="font-size:20px;">${active?'⭕':'○'}</div>
+    </div>`;
   }).join('');
   updateStillActive();
 }
+
 function toggleActive(pid){
   if(state.stillActive.has(pid)) state.stillActive.delete(pid);
   else state.stillActive.add(pid);
   renderTimeLeap();
 }
+
 function updateStillActive(){
   const total = PATHS.filter(p=>!p.decoy && !state.kills.has(p.id)).length;
   document.getElementById('still-active-count').textContent = state.stillActive.size + ' / ' + total;
 }
 
+// URL-based instructor unlock — append ?unlock=2 or ?unlock=3 to force-unlock from a master URL
+const params = new URLSearchParams(window.location.search);
+if(params.get('unlock')==='2') unlockPhase2();
+if(params.get('unlock')==='3') { unlockPhase2(); unlockPhase3(); }
+
 renderPaths();
 renderHunt();
-
-// For solo-play preview: also expose easy unlock so users can self-progress
-window.markReady = function(){
-  originalReady();
-  // Auto-unlock both subsequent phases for solo preview after a short delay
-  setTimeout(()=>{
-    window.unlockPhase2();
-    document.querySelector('[data-phase="3"]').disabled = false;
-  }, 400);
-};
 </script>
+</body>
+</html>

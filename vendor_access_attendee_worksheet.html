@@ -1,0 +1,286 @@
+<h2 class="sr-only">Find the Persistent Paths — interactive attendee worksheet with three phases: classify access paths, kill three after the inject, and the six-months-later time leap.</h2>
+
+<style>
+.phase-pill { display:inline-block; padding:4px 10px; border-radius:999px; font-size:11px; font-weight:500; }
+.path-row { display:flex; align-items:center; gap:10px; padding:10px 12px; border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-md); margin-bottom:6px; background:var(--color-background-primary); }
+.path-row.circled { border:2px solid #A32D2D; background:#FCEBEB; }
+.path-num { font-weight:500; font-size:13px; color:var(--color-text-secondary); min-width:18px; }
+.path-text { flex:1; font-size:13px; line-height:1.4; }
+.sticker-row { display:flex; gap:4px; flex-wrap:wrap; }
+.sticker-btn { width:22px; height:22px; border-radius:50%; border:0.5px solid var(--color-border-secondary); cursor:pointer; padding:0; transition:transform .12s; font-size:0; }
+.sticker-btn:hover { transform:scale(1.15); }
+.sticker-btn.selected { box-shadow:0 0 0 2px var(--color-text-primary); }
+.sticker-red { background:#A32D2D; }
+.sticker-blue { background:#185FA5; }
+.sticker-yellow { background:#BA7517; }
+.sticker-purple { background:#534AB7; }
+.sticker-tomb { background:#444441; color:#fff; font-size:11px; line-height:22px; text-align:center; }
+.days-input { width:60px; padding:4px 6px; font-size:12px; border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-md); }
+.days-quick { display:flex; gap:3px; margin-top:4px; }
+.days-quick button { padding:2px 6px; font-size:10px; background:transparent; border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-md); cursor:pointer; color:var(--color-text-secondary); }
+.days-quick button.active { background:var(--color-background-info); color:var(--color-text-info); border-color:var(--color-border-info); }
+.kill-card { padding:10px 12px; border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-md); margin-bottom:8px; background:var(--color-background-primary); }
+.kill-card.selected { border:2px solid #A32D2D; background:#FCEBEB; }
+.locked-note { padding:16px; background:var(--color-background-secondary); border-radius:var(--border-radius-md); text-align:center; color:var(--color-text-secondary); font-size:13px; }
+.budget-bar { height:8px; background:var(--color-background-secondary); border-radius:4px; overflow:hidden; margin-top:6px; }
+.budget-fill { height:100%; background:#BA7517; transition:width .3s; }
+.budget-fill.over { background:#A32D2D; }
+.section-h { font-size:13px; font-weight:500; margin:0 0 6px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:0.04em; }
+.legend-strip { display:flex; gap:8px; flex-wrap:wrap; padding:8px 10px; background:var(--color-background-secondary); border-radius:var(--border-radius-md); margin-bottom:12px; font-size:11px; }
+.legend-item { display:flex; align-items:center; gap:4px; }
+.legend-dot { width:10px; height:10px; border-radius:50%; }
+.action-btn { display:block; width:100%; padding:12px; font-size:14px; font-weight:500; border:0.5px solid var(--color-border-secondary); border-radius:var(--border-radius-md); background:var(--color-background-primary); cursor:pointer; margin-top:12px; }
+.action-btn.primary { background:#A32D2D; color:#fff; border-color:#A32D2D; }
+.action-btn:disabled { opacity:0.4; cursor:not-allowed; }
+.hunt-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; margin-top:8px; }
+.hunt-cell { padding:8px 6px; border:1px solid #BA7517; border-radius:var(--border-radius-md); text-align:center; background:#FAEEDA; font-size:11px; }
+.hunt-cell input { width:100%; margin-top:4px; padding:3px 4px; font-size:11px; border:0.5px solid var(--color-border-tertiary); border-radius:4px; background:var(--color-background-primary); }
+.hunt-cell label { color:#633806; font-weight:500; }
+.time-leap-box { padding:14px; border:2px solid #A32D2D; background:#FCEBEB; border-radius:var(--border-radius-md); margin-top:12px; }
+.tab-row { display:flex; gap:4px; margin-bottom:14px; padding:4px; background:var(--color-background-secondary); border-radius:var(--border-radius-md); }
+.tab-btn { flex:1; padding:8px 4px; font-size:12px; font-weight:500; background:transparent; border:none; border-radius:var(--border-radius-md); cursor:pointer; color:var(--color-text-secondary); }
+.tab-btn.active { background:var(--color-background-primary); color:var(--color-text-primary); }
+.tab-btn:disabled { opacity:0.4; cursor:not-allowed; }
+</style>
+
+<div style="padding:8px 0 0;">
+
+<div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px;">
+  <h1 style="margin:0; font-size:18px;">Find the persistent paths</h1>
+  <span id="phase-indicator" class="phase-pill" style="background:var(--color-background-info); color:var(--color-text-info);">Phase 1 of 3</span>
+</div>
+<p style="margin:0 0 14px; font-size:12px; color:var(--color-text-secondary); line-height:1.4;">Post-incident review of a recently modernized utility. Three weeks ago a substation emergency required OEM remote support. Today you are reviewing what remains.</p>
+
+<div class="tab-row">
+  <button class="tab-btn active" data-phase="1" onclick="showPhase(1)">1. Classify</button>
+  <button class="tab-btn" data-phase="2" onclick="showPhase(2)" disabled>2. Kill three</button>
+  <button class="tab-btn" data-phase="3" onclick="showPhase(3)" disabled>3. Time leap</button>
+</div>
+
+<div id="phase-1">
+  <div class="legend-strip">
+    <div class="legend-item"><span class="legend-dot" style="background:#A32D2D;"></span>Persistent</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#185FA5;"></span>Inherited</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#BA7517;"></span>Emergency</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#534AB7;"></span>Transitive</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#444441;"></span>Should be dead</div>
+  </div>
+  <p class="section-h">Tap one sticker per path. Tap a days-active pill (or type a number). Two paths are decoys — skip them.</p>
+  <div id="path-list"></div>
+
+  <p class="section-h" style="margin-top:18px;">Hidden risk hunt — find six ⊕ on the map. One is a decoy.</p>
+  <div class="hunt-grid" id="hunt-grid"></div>
+
+  <button class="action-btn primary" id="ready-btn" onclick="markReady()">I'm ready — waiting for inject</button>
+</div>
+
+<div id="phase-2" style="display:none;">
+  <div class="locked-note" id="phase-2-locked">
+    <p style="margin:0 0 8px; font-weight:500;">🔒 Sealed until the inject is opened</p>
+    <p style="margin:0;">Your instructor will unlock this phase from the projector.</p>
+  </div>
+  <div id="phase-2-open" style="display:none;">
+    <div style="padding:12px; background:#FCEBEB; border-radius:var(--border-radius-md); margin-bottom:14px;">
+      <p style="margin:0 0 4px; font-weight:500; color:#791F1F;">⚠ The OEM has been compromised.</p>
+      <p style="margin:0; font-size:12px; color:#791F1F;">Credentials, signing keys, and active support sessions in attacker hands. The map has not changed. The threat has.</p>
+    </div>
+    <p class="section-h" style="margin-top:8px;">Budget: 8 hours of visibility loss. Tap up to three paths to KILL.</p>
+    <p style="font-size:11px; color:var(--color-text-secondary); margin:0 0 8px;">Each kill carries a visibility cost. Spend wisely.</p>
+    <div class="budget-bar"><div class="budget-fill" id="budget-fill" style="width:0;"></div></div>
+    <p style="font-size:12px; margin:6px 0 12px;"><span id="budget-used">0</span> / 8 hours spent — <span id="kill-count">0</span>/3 chosen</p>
+    <div id="kill-list"></div>
+    <button class="action-btn primary" id="submit-kills" onclick="submitKills()" disabled>Lock in my three kills</button>
+  </div>
+</div>
+
+<div id="phase-3" style="display:none;">
+  <div class="locked-note" id="phase-3-locked">
+    <p style="margin:0 0 8px; font-weight:500;">🔒 Sealed until time leap inject</p>
+    <p style="margin:0;">Your instructor will unlock this from the projector.</p>
+  </div>
+  <div id="phase-3-open" style="display:none;">
+    <div class="time-leap-box">
+      <p style="margin:0 0 6px; font-weight:500; color:#791F1F; font-size:14px;">TIME LEAP — 6 months later</p>
+      <p style="margin:0; font-size:13px; line-height:1.5;">No incident occurred. The OEM contract was renewed. Nothing was decommissioned outside the three you killed. <strong>Tap every path still active today.</strong></p>
+    </div>
+    <div id="time-leap-list" style="margin-top:14px;"></div>
+    <div style="padding:14px; background:var(--color-background-secondary); border-radius:var(--border-radius-md); margin-top:14px; text-align:center;">
+      <p style="margin:0 0 4px; font-size:12px; color:var(--color-text-secondary);">Paths still active 6 months later</p>
+      <p style="margin:0; font-size:28px; font-weight:500;" id="still-active-count">0 / 0</p>
+    </div>
+    <p style="margin:18px 0 0; font-size:14px; font-weight:500; text-align:center; padding-top:14px; border-top:0.5px solid var(--color-border-tertiary); line-height:1.5;">For how many of your kills does the operational cost outlast the threat?</p>
+  </div>
+</div>
+
+</div>
+
+<script>
+const PATHS = [
+  {id:1, text:'OEM remote support via SRA broker → jump host', decoy:false, killCost:3},
+  {id:2, text:'Vendor patch agent (outbound 443 from OT)', decoy:false, killCost:2},
+  {id:3, text:'Forgotten TeamViewer on substation HMI', decoy:false, killCost:1},
+  {id:4, text:'LTE cellular modem at RTAC (bypasses firewall)', decoy:false, killCost:8},
+  {id:5, text:'Shared "sel-eng" account on engineering workstation', decoy:false, killCost:1},
+  {id:6, text:'Historian replica → OEM cloud (read-only)', decoy:false, killCost:2},
+  {id:7, text:'Dual-homed jump host (Enterprise + OT NICs)', decoy:false, killCost:6},
+  {id:8, text:'Operator badge reader cluster', decoy:true, killCost:0},
+  {id:9, text:'Firewall rule #47 ("TEMP — delete after cutover", 18mo old)', decoy:false, killCost:1},
+  {id:10, text:'Vendor user VPN with corporate AD federation', decoy:false, killCost:4},
+  {id:11, text:'UPS battery monitoring SNMP poller', decoy:true, killCost:0},
+];
+const STICKERS = [['red','#A32D2D'],['blue','#185FA5'],['yellow','#BA7517'],['purple','#534AB7'],['tomb','#444441']];
+const DAYS_QUICK = ['21','180','365','unknown'];
+
+const state = {
+  stickers: {}, days: {}, hunt: {}, kills: new Set(), stillActive: new Set(), phase2Open:false, phase3Open:false
+};
+
+function renderPaths(){
+  const wrap = document.getElementById('path-list');
+  wrap.innerHTML = PATHS.map(p => {
+    const sticker = state.stickers[p.id] || '';
+    const days = state.days[p.id] || '';
+    const stickerBtns = STICKERS.map(([key,color]) =>
+      '<button class="sticker-btn sticker-'+key+(sticker===key?' selected':'')+'" data-path="'+p.id+'" data-sticker="'+key+'" onclick="setSticker('+p.id+',\''+key+'\')" aria-label="'+key+'"></button>'
+    ).join('');
+    const quickBtns = DAYS_QUICK.map(d =>
+      '<button onclick="setDays('+p.id+',\''+d+'\')" class="'+(days===d?'active':'')+'">'+d+'</button>'
+    ).join('');
+    return '<div class="path-row" data-pid="'+p.id+'">'+
+      '<span class="path-num">'+p.id+'</span>'+
+      '<div style="flex:1;">'+
+        '<div class="path-text">'+p.text+'</div>'+
+        '<div style="display:flex; align-items:center; gap:8px; margin-top:6px; flex-wrap:wrap;">'+
+          '<div class="sticker-row">'+stickerBtns+'</div>'+
+          '<div style="font-size:11px; color:var(--color-text-secondary);">Days active:</div>'+
+          '<div class="days-quick">'+quickBtns+'</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+function renderHunt(){
+  const wrap = document.getElementById('hunt-grid');
+  const items = [1,2,3,4,5,'decoy'];
+  wrap.innerHTML = items.map(n => {
+    const v = state.hunt[n] || '';
+    const label = n==='decoy' ? '⊕ decoy' : '⊕ '+n;
+    return '<div class="hunt-cell"><label>'+label+'</label>'+
+      '<input type="text" placeholder="one word" value="'+v+'" oninput="setHunt(\''+n+'\', this.value)" /></div>';
+  }).join('');
+}
+function setSticker(pid, key){ state.stickers[pid] = (state.stickers[pid]===key) ? null : key; renderPaths(); }
+function setDays(pid, d){ state.days[pid] = (state.days[pid]===d) ? '' : d; renderPaths(); }
+function setHunt(n, v){ state.hunt[n] = v; }
+function markReady(){
+  const btn = document.getElementById('ready-btn');
+  btn.textContent = '✓ Ready — waiting for inject';
+  btn.disabled = true;
+  btn.style.opacity = '0.6';
+  document.querySelector('[data-phase="2"]').disabled = false;
+  unlockListener();
+}
+function unlockListener(){
+  // Phase 2 unlocks via projector trigger (in real classroom: instructor types code into a parent page).
+  // For solo/preview, also unlock phase 2 button after marking ready.
+}
+
+function showPhase(n){
+  for(let i=1;i<=3;i++){
+    document.getElementById('phase-'+i).style.display = (i===n)?'block':'none';
+    document.querySelector('[data-phase="'+i+'"]').classList.toggle('active', i===n);
+  }
+  document.getElementById('phase-indicator').textContent = 'Phase '+n+' of 3';
+  if(n===2) renderKills();
+  if(n===3) renderTimeLeap();
+}
+
+window.unlockPhase2 = function(){
+  state.phase2Open = true;
+  document.getElementById('phase-2-locked').style.display='none';
+  document.getElementById('phase-2-open').style.display='block';
+  document.querySelector('[data-phase="2"]').disabled = false;
+  showPhase(2);
+};
+window.unlockPhase3 = function(){
+  state.phase3Open = true;
+  document.getElementById('phase-3-locked').style.display='none';
+  document.getElementById('phase-3-open').style.display='block';
+  document.querySelector('[data-phase="3"]').disabled = false;
+  showPhase(3);
+};
+
+// Demo: auto-unlock both after marking ready, so attendees can preview solo.
+const originalReady = window.markReady;
+
+function renderKills(){
+  const wrap = document.getElementById('kill-list');
+  const realPaths = PATHS.filter(p=>!p.decoy);
+  wrap.innerHTML = realPaths.map(p => {
+    const selected = state.kills.has(p.id);
+    return '<div class="kill-card'+(selected?' selected':'')+'" onclick="toggleKill('+p.id+')">'+
+      '<div style="display:flex; justify-content:space-between; align-items:start; gap:8px;">'+
+        '<div style="flex:1; font-size:13px;">'+p.text+'</div>'+
+        '<div style="font-size:11px; color:var(--color-text-secondary); white-space:nowrap;">'+p.killCost+'h cost</div>'+
+      '</div></div>';
+  }).join('');
+  updateBudget();
+}
+function toggleKill(pid){
+  if(state.kills.has(pid)) state.kills.delete(pid);
+  else if(state.kills.size<3) state.kills.add(pid);
+  renderKills();
+}
+function updateBudget(){
+  let used = 0;
+  state.kills.forEach(id => { const p = PATHS.find(x=>x.id===id); used += p.killCost; });
+  document.getElementById('budget-used').textContent = used;
+  document.getElementById('kill-count').textContent = state.kills.size;
+  const fill = document.getElementById('budget-fill');
+  fill.style.width = Math.min(100, (used/8)*100) + '%';
+  fill.classList.toggle('over', used>8);
+  document.getElementById('submit-kills').disabled = state.kills.size !== 3;
+}
+function submitKills(){
+  const btn = document.getElementById('submit-kills');
+  btn.textContent = '✓ Locked in';
+  btn.disabled = true;
+  document.querySelector('[data-phase="3"]').disabled = false;
+}
+
+function renderTimeLeap(){
+  const wrap = document.getElementById('time-leap-list');
+  const realPaths = PATHS.filter(p=>!p.decoy && !state.kills.has(p.id));
+  wrap.innerHTML = realPaths.map(p => {
+    const active = state.stillActive.has(p.id);
+    return '<div class="path-row'+(active?' circled':'')+'" onclick="toggleActive('+p.id+')" style="cursor:pointer;">'+
+      '<span class="path-num">'+p.id+'</span>'+
+      '<div class="path-text">'+p.text+'</div>'+
+      '<div style="font-size:18px;">'+(active?'⭕':'○')+'</div>'+
+    '</div>';
+  }).join('');
+  updateStillActive();
+}
+function toggleActive(pid){
+  if(state.stillActive.has(pid)) state.stillActive.delete(pid);
+  else state.stillActive.add(pid);
+  renderTimeLeap();
+}
+function updateStillActive(){
+  const total = PATHS.filter(p=>!p.decoy && !state.kills.has(p.id)).length;
+  document.getElementById('still-active-count').textContent = state.stillActive.size + ' / ' + total;
+}
+
+renderPaths();
+renderHunt();
+
+// For solo-play preview: also expose easy unlock so users can self-progress
+window.markReady = function(){
+  originalReady();
+  // Auto-unlock both subsequent phases for solo preview after a short delay
+  setTimeout(()=>{
+    window.unlockPhase2();
+    document.querySelector('[data-phase="3"]').disabled = false;
+  }, 400);
+};
+</script>

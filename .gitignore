@@ -3,9 +3,10 @@
 Thumbs.db
 ._*
 
-# Editors
+# Editors / tools
 .vscode/
 .idea/
+.claude/
 *.swp
 *.swo
 *~

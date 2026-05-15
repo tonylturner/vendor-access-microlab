@@ -99,7 +99,7 @@ Instructor delivery materials (deployment guide, poll script, runbook) live alon
 
 This work is licensed under the **Creative Commons Attribution-NonCommercial 4.0 International** license (CC BY-NC 4.0). See [`LICENSE`](./LICENSE) for the full text.
 
-You're welcome to share and adapt this lab for non-commercial use as long as you give appropriate credit and link to the license. For commercial use, please get in touch.
+You're welcome to share and adapt this lab for non-commercial use as long as you give appropriate credit and link to the license. For commercial use, please contact [tturner@sans.org](mailto:tturner@sans.org).
 
 ---
 

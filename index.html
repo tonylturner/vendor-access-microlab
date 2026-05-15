@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#1F3A5F">
 <title>Find the Persistent Paths — Vendor Access Lab</title>
 <style>
@@ -45,8 +45,8 @@ body {
   line-height: 1.5;
   color: var(--text-primary);
   background: var(--bg-tertiary);
-  padding: 12px;
-  max-width: 720px;
+  padding: clamp(12px, 3vw, 28px);
+  max-width: 880px;
   margin: 0 auto;
   padding-bottom: 80px;
 }
@@ -93,12 +93,24 @@ p { margin: 0; }
 .tab-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
 .legend-strip {
-  display: flex; gap: 8px; flex-wrap: wrap;
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
   padding: 10px; background: var(--bg-secondary);
   border-radius: var(--radius-md); margin-bottom: 14px; font-size: 11px;
 }
 .legend-item { display: flex; align-items: center; gap: 5px; }
 .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.map-link {
+  margin-left: auto; font-size: 11px; font-weight: 500;
+  color: var(--text-info); text-decoration: none;
+  padding: 4px 8px; border-radius: 4px;
+  border: 0.5px solid var(--border-info);
+  background: rgba(24, 95, 165, 0.06);
+}
+.map-link:hover { background: rgba(24, 95, 165, 0.14); }
+@media (prefers-color-scheme: dark) {
+  .map-link { color: #85b7eb; border-color: #85b7eb; background: rgba(133, 183, 235, 0.10); }
+  .map-link:hover { background: rgba(133, 183, 235, 0.20); }
+}
 
 .section-h {
   font-size: 12px; font-weight: 600; margin: 0 0 8px;
@@ -193,7 +205,7 @@ p { margin: 0; }
 }
 .hunt-cell label { color: #854f0b; font-weight: 600; display: block; }
 .hunt-cell input {
-  width: 100%; margin-top: 5px; padding: 5px 6px; font-size: 12px;
+  width: 100%; margin-top: 5px; padding: 6px 8px; font-size: 16px;
   border: 0.5px solid var(--border-tertiary); border-radius: 4px;
   background: var(--bg-primary); color: var(--text-primary);
   font-family: inherit;
@@ -235,6 +247,16 @@ p { margin: 0; }
   touch-action: manipulation;
 }
 .kill-card.selected { border: 2px solid #a32d2d; background: rgba(163,45,45,0.08); padding: 11px; }
+@media (hover: hover) and (pointer: fine) {
+  .kill-card:not(.selected):hover {
+    border-color: var(--border-secondary);
+    background: var(--bg-secondary);
+  }
+  .path-row.clickable:not(.circled):hover {
+    border-color: var(--border-secondary);
+    background: var(--bg-secondary);
+  }
+}
 .kill-card-row { display: flex; justify-content: space-between; align-items: start; gap: 8px; }
 .kill-text { flex: 1; font-size: 14px; }
 .kill-cost { font-size: 12px; color: var(--text-secondary); white-space: nowrap; padding-top: 2px; }
@@ -339,6 +361,7 @@ p { margin: 0; }
     <div class="legend-item"><span class="legend-dot" style="background:#ba7517;"></span>Emergency</div>
     <div class="legend-item"><span class="legend-dot" style="background:#534ab7;"></span>Transitive</div>
     <div class="legend-item"><span class="legend-dot" style="background:#444441;"></span>Should be dead</div>
+    <a href="network_map.png" target="_blank" rel="noopener" class="map-link" aria-label="Open network map in a new tab">View network map →</a>
   </div>
   <p class="section-h">Tap one sticker per path. Tap a days-active pill. Two paths are decoys — skip them.</p>
   <div id="path-list"></div>
@@ -667,7 +690,7 @@ function renderTimeLeap(){
   const realPaths = PATHS.filter(p=>!p.decoy && !state.kills.has(p.id));
   wrap.innerHTML = realPaths.map(p => {
     const active = state.stillActive.has(p.id);
-    return `<div class="path-row${active?' circled':''}" onclick="toggleActive(${p.id})" style="cursor:pointer;">
+    return `<div class="path-row clickable${active?' circled':''}" onclick="toggleActive(${p.id})" style="cursor:pointer;">
       <span class="path-num">${p.id}</span>
       <div class="path-text">${escape(p.text)}</div>
       <div style="font-size:20px;">${active?'⭕':'○'}</div>

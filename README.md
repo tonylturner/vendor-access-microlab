@@ -11,9 +11,9 @@ Look at a fictional electric distribution utility three weeks after a substation
 > [!IMPORTANT]
 > **Vendor access is not temporary.** Every grant becomes permanent the moment it is signed - unless the expiration is built in before the key is turned.
 
-<a href="./assets/vendor_access_1.png"><img src="./assets/vendor_access_1.png" alt="Worksheet phase 1 screenshot - classify each access path with a sticker, mark its age, hunt the hidden risks" width="320" align="right"></a>
+<a href="./assets/vendor_access_1.png"><img src="./assets/vendor_access_1.png" alt="Worksheet phase 1 screenshot - classify view in dark mode with sticker rows, days-active pills, and the network map link" width="220" align="left" hspace="14" vspace="4"></a>
 
-*Phase 1 of the worksheet - classify each access path, mark how long it's been active, then hunt the seven hidden risks. Works on phone or laptop, light or dark mode. Click image to enlarge.*
+*Phase 1 of the worksheet, shown in dark mode. Classify each vendor access path with a sticker, mark how long it has been active, then hunt the seven hidden risks embedded on the network map. Works equally well on phone or laptop, light or dark mode. Click the image to enlarge.*
 
 <br clear="all">
 

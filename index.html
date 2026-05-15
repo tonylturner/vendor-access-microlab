@@ -366,7 +366,10 @@ p { margin: 0; }
   <p class="section-h">Tap one sticker per path. Tap a days-active pill. Two paths are decoys - skip them.</p>
   <div id="path-list"></div>
 
-  <p class="section-h" style="margin-top:20px;">Hidden risk hunt - find six ⊕ on the map. One is a decoy.</p>
+  <p class="section-h" style="margin-top:20px;">Hidden risk hunt</p>
+  <p style="font-size:13px; line-height:1.5; margin:0 0 10px; color:var(--text-secondary);">
+    Find the seven ⊕ markers on the map. For each one, look at the component label, any italic text underneath, any date pill nearby, and any line touching it. Write one word identifying the risk. One marker is not actually a risk - which?
+  </p>
   <div class="hunt-grid" id="hunt-grid"></div>
 
   <button class="action-btn primary" id="ready-btn" onclick="markReady()">I'm ready - waiting for inject</button>
@@ -578,13 +581,17 @@ function renderPaths(){
 
 function renderHunt(){
   const wrap = document.getElementById('hunt-grid');
-  const items = [1,2,3,4,5,'decoy'];
+  const items = [1,2,3,4,5,6,7];
   wrap.innerHTML = items.map(n => {
     const v = state.hunt[n] || '';
-    const label = n==='decoy' ? '⊕ decoy' : '⊕ '+n;
-    return `<div class="hunt-cell"><label>${label}</label>
+    return `<div class="hunt-cell"><label>⊕ ${n}</label>
       <input type="text" placeholder="one word" value="${escape(v)}" oninput="setHunt('${n}', this.value)" /></div>`;
   }).join('');
+  // Decoy identification field
+  const decoyVal = state.hunt['decoyPick'] || '';
+  wrap.innerHTML += `<div class="hunt-cell" style="grid-column: 1 / -1; border-color:#A32D2D; background: rgba(163,45,45,0.06);">
+    <label style="color:#791F1F;">Which marker is the decoy?</label>
+    <input type="text" placeholder="e.g. 3" value="${escape(decoyVal)}" oninput="setHunt('decoyPick', this.value)" /></div>`;
 }
 
 function setSticker(pid, key){ state.stickers[pid] = (state.stickers[pid]===key) ? null : key; renderPaths(); saveState(); }

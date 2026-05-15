@@ -6,7 +6,7 @@
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/license-CC%20BY--NC%204.0-blue?style=flat-square)](https://creativecommons.org/licenses/by-nc/4.0/)
 [![SANS ICS Summit 2026](https://img.shields.io/badge/SANS-ICS%20Summit%202026-A32D2D?style=flat-square)](https://www.sans.org/cyber-security-training-events/ics-security-summit/)
 
-### → <a href="https://tonylturner.github.io/vendor-access-microlab/" target="_blank" rel="noopener">Open the worksheet</a> &nbsp;·&nbsp; <a href="https://tonylturner.github.io/vendor-access-microlab/assets/network_map.svg" target="_blank" rel="noopener">View the network map</a>
+<h3>→ <a href="https://tonylturner.github.io/vendor-access-microlab/" target="_blank" rel="noopener noreferrer">Open the worksheet</a> &nbsp;·&nbsp; <a href="https://tonylturner.github.io/vendor-access-microlab/assets/network_map.svg" target="_blank" rel="noopener noreferrer">View the network map</a></h3>
 
 Look at a fictional electric distribution utility three weeks after a substation emergency. Identify how vendor remote-access paths quietly become permanent. Confront one of the most underdiscussed problems in operational technology.
 
@@ -35,9 +35,9 @@ The lab moves through three phases. The instructor drives pacing from the projec
 
 | Phase | Time | What attendees do |
 |---|---|---|
-| **1 - Classify** | ~7 min | A network map appears on the projector. Open the worksheet, tap a sticker on each vendor access path, note how long it has been active, and hunt seven hidden risks embedded in the map. |
-| **2 - Kill three** | ~7 min | A simulated incident occurs. Pick three access paths to disable under an operational budget. Vote in the projector poll. The room's collective choices appear in real time. |
-| **3 - Time leap** | ~10 min | Six months pass. No incident occurs. Look at what you did - and did not - remove. Vote once more. See what the room thinks about its own environment. |
+| **1.&nbsp;Classify** | ~7&nbsp;min | A network map appears on the projector. Open the worksheet, tap a sticker on each vendor access path, note how long it has been active, and hunt seven hidden risks embedded in the map. |
+| **2.&nbsp;Kill&nbsp;three** | ~7&nbsp;min | A simulated incident occurs. Pick three access paths to disable under an operational budget. Vote in the projector poll. The room's collective choices appear in real time. |
+| **3.&nbsp;Time&nbsp;leap** | ~10&nbsp;min | Six months pass. No incident occurs. Look at what you did - and did not - remove. Vote once more. See what the room thinks about its own environment. |
 
 ## Learning objectives
 

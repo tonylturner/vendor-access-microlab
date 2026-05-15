@@ -409,11 +409,11 @@ p { margin: 0; }
 
 <div id="phase-1">
   <div class="legend-strip">
-    <div class="legend-item"><span class="legend-dot" style="background:#a32d2d;"></span>Persistent</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#185fa5;"></span>Inherited</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#ba7517;"></span>Emergency</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#534ab7;"></span>Transitive</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#444441;"></span>Should be dead</div>
+    <div class="legend-item" title="Persistent - granted long-term, still active"><span class="legend-dot" style="background:#a32d2d;"></span>Persistent</div>
+    <div class="legend-item" title="Inherited - implicit access via trust or federation"><span class="legend-dot" style="background:#185fa5;"></span>Inherited</div>
+    <div class="legend-item" title="Emergency - granted for an incident, never revoked"><span class="legend-dot" style="background:#ba7517;"></span>Emergency</div>
+    <div class="legend-item" title="Transitive - vendor reaches OT through another path"><span class="legend-dot" style="background:#534ab7;"></span>Transitive</div>
+    <div class="legend-item" title="Should be dead - explicitly supposed to be gone"><span class="legend-dot" style="background:#444441;"></span>Should be dead</div>
     <a href="assets/network_map.svg" target="_blank" rel="noopener" class="map-link" aria-label="Open network map in a new tab">View network map →</a>
   </div>
   <details class="sticker-help">
@@ -502,6 +502,13 @@ const PATHS = [
 ];
 const STICKERS = [['red','#a32d2d'],['blue','#185fa5'],['yellow','#ba7517'],['purple','#534ab7'],['tomb','#444441']];
 const STICKER_COLORS = {red:'#a32d2d', blue:'#185fa5', yellow:'#ba7517', purple:'#534ab7', tomb:'#444441'};
+const STICKER_DESC = {
+  red: 'Persistent - granted long-term, still active',
+  blue: 'Inherited - implicit access via trust or federation',
+  yellow: 'Emergency - granted for an incident, never revoked',
+  purple: 'Transitive - vendor reaches OT through another path',
+  tomb: 'Should be dead - explicitly supposed to be gone'
+};
 const DAYS_QUICK = ['<30d','<6mo','<1yr','>1yr','unknown'];
 
 const state = {
@@ -627,7 +634,7 @@ function renderPaths(){
     const sticker = state.stickers[p.id] || '';
     const days = state.days[p.id] || '';
     const stickerBtns = STICKERS.map(([key,color]) =>
-      `<button class="sticker-btn sticker-${key}${sticker===key?' selected':''}" onclick="setSticker(${p.id},'${key}')" aria-label="${key} sticker">${key==='tomb'?SKULL_SVG:''}</button>`
+      `<button class="sticker-btn sticker-${key}${sticker===key?' selected':''}" onclick="setSticker(${p.id},'${key}')" aria-label="${STICKER_DESC[key]}" title="${STICKER_DESC[key]}">${key==='tomb'?SKULL_SVG:''}</button>`
     ).join('');
     const quickBtns = DAYS_QUICK.map(d =>
       `<button onclick="setDays(${p.id},'${d}')" class="${days===d?'active':''}">${d}</button>`

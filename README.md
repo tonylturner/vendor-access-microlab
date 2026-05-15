@@ -6,14 +6,14 @@
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/license-CC%20BY--NC%204.0-blue?style=flat-square)](https://creativecommons.org/licenses/by-nc/4.0/)
 [![SANS ICS Summit 2026](https://img.shields.io/badge/SANS-ICS%20Summit%202026-A32D2D?style=flat-square)](https://www.sans.org/cyber-security-training-events/ics-security-summit/)
 
-### → [Open the worksheet](https://tonylturner.github.io/vendor-access-microlab/) &nbsp;·&nbsp; [View the network map](./assets/network_map.svg)
+### → <a href="https://tonylturner.github.io/vendor-access-microlab/" target="_blank" rel="noopener">Open the worksheet</a> &nbsp;·&nbsp; <a href="https://tonylturner.github.io/vendor-access-microlab/assets/network_map.svg" target="_blank" rel="noopener">View the network map</a>
 
 Look at a fictional electric distribution utility three weeks after a substation emergency. Identify how vendor remote-access paths quietly become permanent. Confront one of the most underdiscussed problems in operational technology.
 
 > [!IMPORTANT]
 > **Vendor access is not temporary.** Every grant becomes permanent the moment it is signed - unless the expiration is built in before the key is turned.
 
-<a href="./assets/vendor_access_1.png"><img src="./assets/vendor_access_1.png" alt="Worksheet phase 1 screenshot - classify view in dark mode with sticker rows, days-active pills, and the network map link" width="220" align="left" hspace="14" vspace="4"></a>
+<a href="https://tonylturner.github.io/vendor-access-microlab/assets/vendor_access_1.png" target="_blank" rel="noopener"><img src="./assets/vendor_access_1.png" alt="Worksheet phase 1 screenshot - classify view in dark mode with sticker rows, days-active pills, and the network map link" width="220" align="left" hspace="14" vspace="4"></a>
 
 *Phase 1 of the worksheet, shown in dark mode. Classify each vendor access path with a sticker, mark how long it has been active, then hunt the seven hidden risks embedded on the network map. Works equally well on phone or laptop, light or dark mode. Click the image to enlarge.*
 
@@ -66,9 +66,9 @@ During the lab, the instructor projects two QR codes:
 > [!TIP]
 > The worksheet is hosted on GitHub Pages and remains functional once loaded - even if Wi-Fi drops mid-lab.
 
-- **Worksheet** - <https://tonylturner.github.io/vendor-access-microlab/>
+- **Worksheet** - <a href="https://tonylturner.github.io/vendor-access-microlab/" target="_blank" rel="noopener">https://tonylturner.github.io/vendor-access-microlab/</a>
 - **Polls** - filled in by your instructor at the start of the lab
-- **Network map** - [`network_map.svg`](./assets/network_map.svg) if you want it on your own device
+- **Network map** - <a href="https://tonylturner.github.io/vendor-access-microlab/assets/network_map.svg" target="_blank" rel="noopener">network_map.svg</a> if you want it on your own device
 
 ## About the worksheet
 

@@ -2,15 +2,14 @@
 
 > A 30-minute tabletop micro-lab for ICS / OT security practitioners.
 
-[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
-[![Status: WIP](https://img.shields.io/badge/status-work%20in%20progress-yellow.svg)](#)
-[![Worksheet](https://img.shields.io/badge/worksheet-live-blue.svg)](https://tonylturner.github.io/vendor-access-microlab/)
+[![Worksheet](https://img.shields.io/badge/worksheet-live-185FA5?style=flat-square&logo=github)](https://tonylturner.github.io/vendor-access-microlab/)
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/license-CC%20BY--NC%204.0-blue?style=flat-square)](https://creativecommons.org/licenses/by-nc/4.0/)
+[![SANS ICS Summit 2026](https://img.shields.io/badge/SANS-ICS%20Summit%202026-A32D2D?style=flat-square)](https://www.sans.org/cyber-security-training-events/ics-security-summit/)
 
-Look at a fictional electric distribution utility three weeks after a substation emergency, identify how vendor remote-access paths quietly become permanent, and confront one of the most underdiscussed problems in operational technology: **vendor access is not temporary.**
+Look at a fictional electric distribution utility three weeks after a substation emergency. Identify how vendor remote-access paths quietly become permanent. Confront one of the most underdiscussed problems in operational technology.
 
-A SANS ICS Summit workshop on securing vendor access in industrial environments.
-
----
+> [!IMPORTANT]
+> **Vendor access is not temporary.** Every grant becomes permanent the moment it is signed - unless the expiration is built in before the key is turned.
 
 ## At a glance
 
@@ -18,88 +17,68 @@ A SANS ICS Summit workshop on securing vendor access in industrial environments.
 |---|---|
 | **Duration** | 30 minutes |
 | **Audience** | ICS / OT security practitioners |
-| **Format** | Digital - attendee phones / laptops + projector |
-| **Setup needed by attendees** | None. No app, no account, no downloads. |
-| **Setup needed by instructor** | ~20 minutes, once |
-
----
+| **Format** | Digital - attendee phones or laptops + projector |
+| **Attendee setup** | None. No app, no account, no downloads. |
+| **Instructor setup** | ~20 minutes, once |
 
 ## How it runs
 
-The lab moves through three phases. Your instructor drives pacing from the projector. You work on your own device.
+The lab moves through three phases. The instructor drives pacing from the projector. Attendees work on their own device.
 
-| Phase | Time | What you do |
+| Phase | Time | What attendees do |
 |---|---|---|
-| **1 - Classify** | ~7 min | A network map appears on the projector. Open the worksheet on your phone, tap a sticker on each vendor access path you spot, note how long it has been active, and hunt six hidden risks embedded in the map. |
+| **1 - Classify** | ~7 min | A network map appears on the projector. Open the worksheet, tap a sticker on each vendor access path, note how long it has been active, and hunt seven hidden risks embedded in the map. |
 | **2 - Kill three** | ~7 min | A simulated incident occurs. Pick three access paths to disable under an operational budget. Vote in the projector poll. The room's collective choices appear in real time. |
-| **3 - Time leap** | ~10 min | Six months pass. No incident occurs. Look at what you did - and did not - remove. Vote once more. See what the room actually thinks about its own environment. |
+| **3 - Time leap** | ~10 min | Six months pass. No incident occurs. Look at what you did - and did not - remove. Vote once more. See what the room thinks about its own environment. |
 
----
+## Learning objectives
+
+By the end of the lab, attendees will be able to:
+
+1. **Recognize** how vendor-access paths accumulate over time and rarely get decommissioned.
+2. **Classify** vendor access by lifecycle origin: persistent, inherited, emergency, transitive, or dead.
+3. **Identify** high-risk patterns: dual-homed hosts, shared service accounts, outbound-443 patch agents, "TEMP" firewall rules.
+4. **Quantify** the operational vs. security tradeoffs of reducing access.
+5. **Apply** the framework to their own environment.
+
+The lab's findings map directly to **NERC CIP-013** supply-chain risk controls.
 
 ## What you need
 
-Bring a phone or laptop with a working camera and a web browser. That's all.
+> [!NOTE]
+> A phone or laptop with a working camera and a web browser. No accounts, no downloads, no app installs.
 
-During the lab the instructor projects two QR codes:
+During the lab, the instructor projects two QR codes:
 
-1. One scans to the **worksheet** - a single web page where you work through all three phases.
-2. One scans to the **live polls** - run in Mentimeter or Slido, where you vote during the lab.
-
----
+1. The **worksheet** - a single web page where you work through all three phases.
+2. The **live polls** - run in Slido or Mentimeter, where you vote at three key moments.
 
 ## Live links
 
-These will be active during the lab:
+> [!TIP]
+> The worksheet is hosted on GitHub Pages and remains functional once loaded - even if Wi-Fi drops mid-lab.
 
-- **Worksheet:** <https://tonylturner.github.io/vendor-access-microlab/>
-- **Polls:** filled in by your instructor at the start of the lab
-- **Network map:** [`network_map.png`](./network_map.png) - in case you want it on your own device during phase 1
-
----
+- **Worksheet** - <https://tonylturner.github.io/vendor-access-microlab/>
+- **Polls** - filled in by your instructor at the start of the lab
+- **Network map** - [`network_map.svg`](./network_map.svg) if you want it on your own device
 
 ## About the worksheet
 
-The worksheet saves your work automatically to your browser. If your phone goes to sleep, your tab closes, or you accidentally refresh, your progress is restored when you come back. A small "saved" indicator flashes briefly after each action.
+The worksheet saves your work automatically to your browser. If your phone sleeps, your tab closes, or you accidentally refresh, your progress is restored. A small "saved" indicator flashes after each action.
 
-To start over at any point, hit **Reset** in the top-right header.
+Tap **Reset** in the top-right header to start over.
 
-Phase 1 is open immediately. Phases 2 and 3 nominally wait for the instructor's cue, but you can preview them - the lab works best in sequence, but nothing stops you.
-
----
-
-## What you will *not* need
-
-- You will not need to type long answers. The worksheet uses tap-to-select almost everywhere.
-- You will not need an account on any platform.
-- You will not need to download an app.
-- You will not need to install a QR code scanner. Modern phone cameras handle QR codes natively.
-
----
+Phase 1 is open immediately. Phases 2 and 3 wait for the instructor's cue but can be previewed - the lab works best in sequence.
 
 ## After the lab
 
-Your browser keeps your final state saved - reopen the worksheet URL anytime to see what you did. The aggregate room results from the polls will be shared by your instructor.
-
----
-
-## Repository contents
-
-| File | Purpose |
-|---|---|
-| [`index.html`](./index.html) | The attendee worksheet (single-page app, no backend) |
-| [`network_map.png`](./network_map.png) | The network map shown on the projector |
-| [`README.md`](./README.md) | This file |
-| [`LICENSE`](./LICENSE) | CC BY-NC 4.0 license |
-
-Instructor delivery materials (deployment guide, poll script, runbook) live alongside this repo locally during lab design and are intentionally **not** committed to the public repository.
-
----
+Your browser keeps your final state. Reopen the worksheet URL anytime to revisit what you did. Aggregate room results from the polls are shared by your instructor.
 
 ## License
 
-This work is licensed under the **Creative Commons Attribution-NonCommercial 4.0 International** license (CC BY-NC 4.0). See [`LICENSE`](./LICENSE) for the full text.
+This work is licensed under [**Creative Commons Attribution-NonCommercial 4.0 International**](https://creativecommons.org/licenses/by-nc/4.0/) (CC BY-NC 4.0). See [`LICENSE`](./LICENSE) for full text.
 
-You're welcome to share and adapt this lab for non-commercial use as long as you give appropriate credit and link to the license. For commercial use, please contact [tturner@sans.org](mailto:tturner@sans.org).
+You're welcome to share and adapt this lab for non-commercial use with appropriate credit and a link to the license. For commercial use, contact [tturner@sans.org](mailto:tturner@sans.org).
 
 ---
 

@@ -277,7 +277,15 @@ p { margin: 0; }
   height: 100%; background: #ba7517; transition: width 0.3s, background 0.3s;
 }
 .budget-fill.over { background: #a32d2d; }
-.budget-status { font-size: 13px; margin: 8px 0 14px; }
+.budget-status { font-size: 13px; margin: 8px 0 4px; }
+.budget-hint {
+  font-size: 11px; color: var(--text-secondary);
+  margin: 0 0 14px; font-style: italic;
+}
+.slido-nudge {
+  font-size: 12px; color: var(--text-info);
+  margin-top: 8px; font-weight: 500;
+}
 
 .time-leap-box {
   padding: 16px; border: 2px solid #a32d2d;
@@ -290,12 +298,57 @@ p { margin: 0; }
 .time-leap-box p { font-size: 14px; line-height: 1.5; }
 
 .count-card {
-  padding: 18px; background: var(--bg-secondary);
-  border-radius: var(--radius-md); margin-top: 14px;
+  padding: 28px 18px; background: var(--bg-secondary);
+  border-radius: var(--radius-md); margin-top: 18px;
   text-align: center;
+  border: 1px solid var(--border-tertiary);
 }
-.count-card .count-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
-.count-card .count-number { font-size: 32px; font-weight: 500; }
+.count-card .count-label {
+  font-size: 13px; color: var(--text-secondary);
+  margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.count-card .count-number {
+  font-size: 56px; font-weight: 600;
+  line-height: 1; color: #a32d2d;
+}
+.regulatory-note {
+  font-size: 11px; color: var(--text-tertiary);
+  text-align: center; margin-top: 14px; line-height: 1.4;
+}
+.sticker-help {
+  font-size: 11px; margin: -8px 0 14px;
+  color: var(--text-secondary);
+}
+.sticker-help summary {
+  cursor: pointer; padding: 4px 0; font-size: 11px;
+  color: var(--text-info); list-style: none;
+}
+.sticker-help summary::-webkit-details-marker { display: none; }
+.sticker-help summary::before {
+  content: '▸ '; display: inline-block; transition: transform 0.15s;
+}
+.sticker-help[open] summary::before { content: '▾ '; }
+.sticker-help ul {
+  margin: 4px 0 0; padding-left: 4px;
+  line-height: 1.55; list-style: none;
+}
+.sticker-help li { margin-bottom: 4px; }
+.sticker-help li strong { color: var(--text-primary); }
+.kill-sticker {
+  display: inline-block; width: 12px; height: 12px;
+  border-radius: 50%; flex-shrink: 0;
+  margin-top: 4px;
+  border: 0.5px solid rgba(0,0,0,0.25);
+}
+.phase1-quicknav {
+  text-align: right; margin: 0 0 8px;
+  font-size: 11px;
+}
+.phase1-quicknav a {
+  color: var(--text-info); text-decoration: none;
+  padding: 2px 4px;
+}
+.phase1-quicknav a:hover { text-decoration: underline; }
 
 .closing-q {
   margin: 22px 0 0; padding-top: 16px;
@@ -328,7 +381,7 @@ p { margin: 0; }
 .reset-btn:active { background: rgba(163,45,45,0.08); }
 
 .saved-indicator {
-  font-size: 10px; color: var(--text-tertiary);
+  font-size: 12px; color: var(--text-info);
   font-style: italic; margin-left: 4px;
   opacity: 0; transition: opacity 0.3s;
 }
@@ -361,12 +414,23 @@ p { margin: 0; }
     <div class="legend-item"><span class="legend-dot" style="background:#ba7517;"></span>Emergency</div>
     <div class="legend-item"><span class="legend-dot" style="background:#534ab7;"></span>Transitive</div>
     <div class="legend-item"><span class="legend-dot" style="background:#444441;"></span>Should be dead</div>
-    <a href="network_map.png" target="_blank" rel="noopener" class="map-link" aria-label="Open network map in a new tab">View network map →</a>
+    <a href="network_map.svg" target="_blank" rel="noopener" class="map-link" aria-label="Open network map in a new tab">View network map →</a>
   </div>
-  <p class="section-h">Tap one sticker per path. Tap a days-active pill. Two paths are decoys - skip them.</p>
+  <details class="sticker-help">
+    <summary>What do the sticker colors mean?</summary>
+    <ul>
+      <li><strong>Persistent</strong> - granted long-term, still active</li>
+      <li><strong>Inherited</strong> - implicit access via trust or federation</li>
+      <li><strong>Emergency</strong> - granted for an incident, never revoked</li>
+      <li><strong>Transitive</strong> - vendor reaches OT through another path</li>
+      <li><strong>Should be dead</strong> - explicitly supposed to be gone</li>
+    </ul>
+  </details>
+  <div class="phase1-quicknav"><a href="#hunt-section">Skip to hunt ↓</a></div>
+  <p class="section-h">Tap one sticker per path. Tap a days-active pill. Two paths are decoys - skip them. Don't try to finish everything - tap what jumps out at you.</p>
   <div id="path-list"></div>
 
-  <p class="section-h" style="margin-top:20px;">Hidden risk hunt</p>
+  <p class="section-h" id="hunt-section" style="margin-top:20px;">Hidden risk hunt</p>
   <p style="font-size:13px; line-height:1.5; margin:0 0 10px; color:var(--text-secondary);">
     Find the seven ⊕ markers on the map. For each one, look at the component label, any italic text underneath, any date pill nearby, and any line touching it. Write one word identifying the risk. One marker is not actually a risk - which?
   </p>
@@ -386,10 +450,12 @@ p { margin: 0; }
     <div class="inject-warning">
       <p>⚠ The OEM has been compromised.</p>
       <p>Credentials, signing keys, and active support sessions in attacker hands. The map has not changed. The threat has.</p>
+      <p class="slido-nudge">→ Also vote on the projector poll - same three picks.</p>
     </div>
     <p class="section-h">Budget: 8 hours of visibility loss. Tap up to three paths to KILL.</p>
     <div class="budget-bar"><div class="budget-fill" id="budget-fill" style="width:0;"></div></div>
     <p class="budget-status"><span id="budget-used">0</span> / 8 hours spent - <span id="kill-count">0</span>/3 chosen</p>
+    <p class="budget-hint">Going over budget is allowed - every hour costs visibility. Pick the path you can defend.</p>
     <div id="kill-list"></div>
     <button class="action-btn primary" id="submit-kills" onclick="submitKills()" disabled>Lock in my three kills</button>
   </div>
@@ -406,6 +472,7 @@ p { margin: 0; }
     <div class="time-leap-box">
       <p>TIME LEAP - 6 months later</p>
       <p>No incident occurred. The OEM contract was renewed. Nothing was decommissioned outside the three you killed. <strong>Tap every path still active today.</strong></p>
+      <p class="slido-nudge">→ Also vote on the projector poll - how many still active?</p>
     </div>
     <div id="time-leap-list"></div>
     <div class="count-card">
@@ -413,6 +480,7 @@ p { margin: 0; }
       <p class="count-number" id="still-active-count">0 / 0</p>
     </div>
     <p class="closing-q">For how many of your kills does the operational cost outlast the threat?</p>
+    <p class="regulatory-note">Vendor remote-access patterns map directly to NERC CIP-013 supply-chain risk controls.</p>
   </div>
 </div>
 
@@ -433,7 +501,8 @@ const PATHS = [
   {id:11, text:'UPS battery monitoring SNMP poller', decoy:true, killCost:0},
 ];
 const STICKERS = [['red','#a32d2d'],['blue','#185fa5'],['yellow','#ba7517'],['purple','#534ab7'],['tomb','#444441']];
-const DAYS_QUICK = ['21','180','365','unknown'];
+const STICKER_COLORS = {red:'#a32d2d', blue:'#185fa5', yellow:'#ba7517', purple:'#534ab7', tomb:'#444441'};
+const DAYS_QUICK = ['<30d','<6mo','<1yr','>1yr','unknown'];
 
 const state = {
   stickers: {}, days: {}, hunt: {}, kills: new Set(), stillActive: new Set(),
@@ -564,7 +633,6 @@ function renderPaths(){
       `<button onclick="setDays(${p.id},'${d}')" class="${days===d?'active':''}">${d}</button>`
     ).join('');
     return `<div class="path-row">
-      <span class="path-num">${p.id}</span>
       <div style="flex:1;">
         <div class="path-text">${escape(p.text)}</div>
         <div class="path-controls">
@@ -649,9 +717,13 @@ function renderKills(){
   const realPaths = PATHS.filter(p=>!p.decoy);
   wrap.innerHTML = realPaths.map(p => {
     const selected = state.kills.has(p.id);
+    const sticker = state.stickers[p.id];
+    const stickerDot = sticker
+      ? `<span class="kill-sticker" style="background:${STICKER_COLORS[sticker]}" aria-label="${sticker} sticker"></span>`
+      : '';
     return `<div class="kill-card${selected?' selected':''}" onclick="toggleKill(${p.id})">
       <div class="kill-card-row">
-        <div class="kill-text">${escape(p.text)}</div>
+        ${stickerDot}<div class="kill-text">${escape(p.text)}</div>
         <div class="kill-cost">${p.killCost}h cost</div>
       </div></div>`;
   }).join('');
@@ -698,7 +770,6 @@ function renderTimeLeap(){
   wrap.innerHTML = realPaths.map(p => {
     const active = state.stillActive.has(p.id);
     return `<div class="path-row clickable${active?' circled':''}" onclick="toggleActive(${p.id})" style="cursor:pointer;">
-      <span class="path-num">${p.id}</span>
       <div class="path-text">${escape(p.text)}</div>
       <div style="font-size:20px;">${active?'⭕':'○'}</div>
     </div>`;
@@ -719,6 +790,12 @@ function updateStillActive(){
 }
 
 // ----- Initialization -----
+// 0. Check for instructor reset signal (?reset=1) before loading state
+const params = new URLSearchParams(window.location.search);
+if (params.get('reset') === '1') {
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+}
+
 // 1. Load saved state from localStorage (if any)
 const hadSaved = loadState();
 
@@ -744,7 +821,6 @@ if (hadSaved) {
 }
 
 // 3. URL-based instructor unlock (overrides saved phase state)
-const params = new URLSearchParams(window.location.search);
 if(params.get('unlock')==='2') unlockPhase2();
 if(params.get('unlock')==='3') { unlockPhase2(); unlockPhase3(); }
 

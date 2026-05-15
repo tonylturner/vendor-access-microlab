@@ -1,0 +1,28 @@
+# OS
+.DS_Store
+Thumbs.db
+._*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Office temp lock files
+~$*
+
+# Instructor / delivery materials — kept locally during lab design,
+# not published to the public repo
+Deployment_Guide.md
+Poll_Script_Mentimeter_Slido.md
+Instructor_Runbook.docx
+
+# Slide decks (works in progress)
+*.pptx
+*.key
+
+# Misc
+*.tmp
+*.bak

@@ -18,7 +18,7 @@ A SANS ICS Summit workshop on securing vendor access in industrial environments.
 |---|---|
 | **Duration** | 30 minutes |
 | **Audience** | ICS / OT security practitioners |
-| **Format** | Digital — attendee phones / laptops + projector |
+| **Format** | Digital - attendee phones / laptops + projector |
 | **Setup needed by attendees** | None. No app, no account, no downloads. |
 | **Setup needed by instructor** | ~20 minutes, once |
 
@@ -30,9 +30,9 @@ The lab moves through three phases. Your instructor drives pacing from the proje
 
 | Phase | Time | What you do |
 |---|---|---|
-| **1 — Classify** | ~7 min | A network map appears on the projector. Open the worksheet on your phone, tap a sticker on each vendor access path you spot, note how long it has been active, and hunt six hidden risks embedded in the map. |
-| **2 — Kill three** | ~7 min | A simulated incident occurs. Pick three access paths to disable under an operational budget. Vote in the projector poll. The room's collective choices appear in real time. |
-| **3 — Time leap** | ~10 min | Six months pass. No incident occurs. Look at what you did — and did not — remove. Vote once more. See what the room actually thinks about its own environment. |
+| **1 - Classify** | ~7 min | A network map appears on the projector. Open the worksheet on your phone, tap a sticker on each vendor access path you spot, note how long it has been active, and hunt six hidden risks embedded in the map. |
+| **2 - Kill three** | ~7 min | A simulated incident occurs. Pick three access paths to disable under an operational budget. Vote in the projector poll. The room's collective choices appear in real time. |
+| **3 - Time leap** | ~10 min | Six months pass. No incident occurs. Look at what you did - and did not - remove. Vote once more. See what the room actually thinks about its own environment. |
 
 ---
 
@@ -42,8 +42,8 @@ Bring a phone or laptop with a working camera and a web browser. That's all.
 
 During the lab the instructor projects two QR codes:
 
-1. One scans to the **worksheet** — a single web page where you work through all three phases.
-2. One scans to the **live polls** — run in Mentimeter or Slido, where you vote during the lab.
+1. One scans to the **worksheet** - a single web page where you work through all three phases.
+2. One scans to the **live polls** - run in Mentimeter or Slido, where you vote during the lab.
 
 ---
 
@@ -53,7 +53,7 @@ These will be active during the lab:
 
 - **Worksheet:** <https://tonylturner.github.io/vendor-access-microlab/>
 - **Polls:** filled in by your instructor at the start of the lab
-- **Network map:** [`network_map.png`](./network_map.png) — in case you want it on your own device during phase 1
+- **Network map:** [`network_map.png`](./network_map.png) - in case you want it on your own device during phase 1
 
 ---
 
@@ -63,7 +63,7 @@ The worksheet saves your work automatically to your browser. If your phone goes 
 
 To start over at any point, hit **Reset** in the top-right header.
 
-Phase 1 is open immediately. Phases 2 and 3 nominally wait for the instructor's cue, but you can preview them — the lab works best in sequence, but nothing stops you.
+Phase 1 is open immediately. Phases 2 and 3 nominally wait for the instructor's cue, but you can preview them - the lab works best in sequence, but nothing stops you.
 
 ---
 
@@ -78,7 +78,7 @@ Phase 1 is open immediately. Phases 2 and 3 nominally wait for the instructor's 
 
 ## After the lab
 
-Your browser keeps your final state saved — reopen the worksheet URL anytime to see what you did. The aggregate room results from the polls will be shared by your instructor.
+Your browser keeps your final state saved - reopen the worksheet URL anytime to see what you did. The aggregate room results from the polls will be shared by your instructor.
 
 ---
 

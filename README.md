@@ -6,6 +6,8 @@
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/license-CC%20BY--NC%204.0-blue?style=flat-square)](https://creativecommons.org/licenses/by-nc/4.0/)
 [![SANS ICS Summit 2026](https://img.shields.io/badge/SANS-ICS%20Summit%202026-A32D2D?style=flat-square)](https://www.sans.org/cyber-security-training-events/ics-security-summit/)
 
+### → [Open the worksheet](https://tonylturner.github.io/vendor-access-microlab/) &nbsp;·&nbsp; [View the network map](./assets/network_map.svg)
+
 Look at a fictional electric distribution utility three weeks after a substation emergency. Identify how vendor remote-access paths quietly become permanent. Confront one of the most underdiscussed problems in operational technology.
 
 > [!IMPORTANT]

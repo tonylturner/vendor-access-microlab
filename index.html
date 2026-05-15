@@ -121,23 +121,44 @@ p { margin: 0; }
 }
 .path-text { flex: 1; font-size: 14px; line-height: 1.4; }
 
-.sticker-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.sticker-row { display: flex; gap: 8px; flex-wrap: wrap; }
 .sticker-btn {
-  width: 28px; height: 28px; border-radius: 50%;
-  border: 1px solid var(--border-secondary); cursor: pointer;
-  padding: 0; transition: transform 0.12s, box-shadow 0.12s;
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1.5px solid var(--border-secondary); cursor: pointer;
+  padding: 0; transition: transform 0.15s, box-shadow 0.15s;
   font-size: 0; touch-action: manipulation;
+  position: relative;
 }
-.sticker-btn:active { transform: scale(0.9); }
+.sticker-btn:hover { transform: scale(1.06); }
+.sticker-btn:active { transform: scale(0.92); }
 .sticker-btn.selected {
-  box-shadow: 0 0 0 3px var(--text-primary);
-  transform: scale(1.08);
+  /* White inner offset + dark outer ring — reads clearly on any background */
+  box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4.5px var(--text-primary);
+  transform: scale(1.15);
+}
+.sticker-btn.selected::after {
+  /* Checkmark inside selected sticker — unambiguous on desktop */
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+  font-family: var(--font);
 }
 .sticker-red { background: #a32d2d; }
 .sticker-blue { background: #185fa5; }
 .sticker-yellow { background: #ba7517; }
 .sticker-purple { background: #534ab7; }
-.sticker-tomb { background: #444441; color: #fff; font-size: 13px; line-height: 28px; text-align: center; font-weight: 600; }
+.sticker-tomb { background: #444441; }
+.sticker-tomb svg { display: block; margin: auto; pointer-events: none; }
+/* Hide the generic checkmark on tomb sticker — it has its own skull glyph */
+.sticker-tomb.selected::after { content: ''; }
+.sticker-tomb.selected svg { filter: drop-shadow(0 0 2px rgba(255,255,255,0.6)); }
 
 .days-quick { display: flex; gap: 4px; flex-wrap: wrap; }
 .days-quick button {
@@ -271,6 +292,25 @@ p { margin: 0; }
   border: 0.5px solid var(--border-tertiary); border-radius: 4px;
   color: var(--text-tertiary); cursor: pointer; font-family: inherit;
 }
+
+.header-actions { display: flex; align-items: center; gap: 8px; }
+
+.reset-btn {
+  font-size: 11px; padding: 5px 10px;
+  background: transparent;
+  border: 0.5px solid var(--border-tertiary); border-radius: var(--radius-sm);
+  color: var(--text-tertiary); cursor: pointer; font-family: inherit;
+  touch-action: manipulation;
+}
+.reset-btn:hover { color: var(--text-danger); border-color: var(--text-danger); }
+.reset-btn:active { background: rgba(163,45,45,0.08); }
+
+.saved-indicator {
+  font-size: 10px; color: var(--text-tertiary);
+  font-style: italic; margin-left: 4px;
+  opacity: 0; transition: opacity 0.3s;
+}
+.saved-indicator.visible { opacity: 1; }
 </style>
 </head>
 <body>
@@ -278,7 +318,11 @@ p { margin: 0; }
 
 <div class="header-row">
   <h1>Find the persistent paths</h1>
-  <span id="phase-indicator" class="phase-pill">Phase 1 of 3</span>
+  <div class="header-actions">
+    <span id="saved-indicator" class="saved-indicator">saved</span>
+    <span id="phase-indicator" class="phase-pill">Phase 1 of 3</span>
+    <button class="reset-btn" onclick="confirmReset()" aria-label="Reset worksheet">Reset</button>
+  </div>
 </div>
 <p class="subtitle">Post-incident review of a recently modernized utility. Three weeks ago a substation emergency required OEM remote support. Today you are reviewing what remains.</p>
 
@@ -307,13 +351,10 @@ p { margin: 0; }
 
 <div id="phase-2" style="display:none;">
   <div class="locked-note" id="phase-2-locked">
-    <span class="lock-icon">🔒</span>
-    <p style="margin:0 0 8px; font-weight:500;">Sealed until inject is opened</p>
-    <p>Your instructor will unlock this from the projector.</p>
-    <div class="unlock-row">
-      <p>Solo practice? Unlock manually:</p>
-      <button class="unlock-btn" onclick="unlockPhase2()">Unlock phase 2</button>
-    </div>
+    <span class="lock-icon">⏳</span>
+    <p style="margin:0 0 8px; font-weight:500;">Phase 2 opens after the inject</p>
+    <p>Your instructor will reveal it at minute 11. You can open it now to preview — but the lab works best in sequence.</p>
+    <button class="unlock-btn" style="margin-top:14px; padding:8px 14px; font-size:13px;" onclick="unlockPhase2()">Open phase 2 anyway</button>
   </div>
   <div id="phase-2-open" style="display:none;">
     <div class="inject-warning">
@@ -330,13 +371,10 @@ p { margin: 0; }
 
 <div id="phase-3" style="display:none;">
   <div class="locked-note" id="phase-3-locked">
-    <span class="lock-icon">🔒</span>
-    <p style="margin:0 0 8px; font-weight:500;">Sealed until time leap inject</p>
-    <p>Your instructor will unlock this from the projector.</p>
-    <div class="unlock-row">
-      <p>Solo practice? Unlock manually:</p>
-      <button class="unlock-btn" onclick="unlockPhase3()">Unlock phase 3</button>
-    </div>
+    <span class="lock-icon">⏳</span>
+    <p style="margin:0 0 8px; font-weight:500;">Phase 3 opens at the time leap</p>
+    <p>Your instructor will reveal it at minute 19. You can open it now to preview — but the lab works best in sequence.</p>
+    <button class="unlock-btn" style="margin-top:14px; padding:8px 14px; font-size:13px;" onclick="unlockPhase3()">Open phase 3 anyway</button>
   </div>
   <div id="phase-3-open" style="display:none;">
     <div class="time-leap-box">
@@ -373,10 +411,120 @@ const DAYS_QUICK = ['21','180','365','unknown'];
 
 const state = {
   stickers: {}, days: {}, hunt: {}, kills: new Set(), stillActive: new Set(),
-  phase2Open: false, phase3Open: false
+  phase2Open: false, phase3Open: false, readyTapped: false, killsLocked: false
 };
 
+// ----- localStorage persistence -----
+const STORAGE_KEY = 'vendor-access-lab-v1';
+let saveTimer = null;
+
+function saveState(){
+  try {
+    const serializable = {
+      stickers: state.stickers,
+      days: state.days,
+      hunt: state.hunt,
+      kills: Array.from(state.kills),
+      stillActive: Array.from(state.stillActive),
+      phase2Open: state.phase2Open,
+      phase3Open: state.phase3Open,
+      readyTapped: state.readyTapped,
+      killsLocked: state.killsLocked
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(serializable));
+    flashSaved();
+  } catch (e) {
+    // localStorage may be disabled (private mode, etc) — fail silently
+    console.warn('Worksheet state could not be saved:', e);
+  }
+}
+
+function loadState(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return false;
+    const data = JSON.parse(raw);
+    state.stickers = data.stickers || {};
+    state.days = data.days || {};
+    state.hunt = data.hunt || {};
+    state.kills = new Set(data.kills || []);
+    state.stillActive = new Set(data.stillActive || []);
+    state.phase2Open = data.phase2Open || false;
+    state.phase3Open = data.phase3Open || false;
+    state.readyTapped = data.readyTapped || false;
+    state.killsLocked = data.killsLocked || false;
+    return true;
+  } catch (e) {
+    console.warn('Worksheet state could not be loaded:', e);
+    return false;
+  }
+}
+
+function flashSaved(){
+  const el = document.getElementById('saved-indicator');
+  if (!el) return;
+  el.classList.add('visible');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => el.classList.remove('visible'), 1200);
+}
+
+function confirmReset(){
+  if (!hasAnyProgress()) {
+    // Nothing to lose — just confirm anyway for consistency
+    if (!confirm('Reset the worksheet? This clears everything.')) return;
+  } else {
+    if (!confirm('Reset the worksheet?\n\nThis clears all your stickers, days-active entries, hunt answers, kill choices, and time-leap selections. This cannot be undone.')) return;
+  }
+  resetState();
+}
+
+function hasAnyProgress(){
+  return Object.keys(state.stickers).length > 0 ||
+    Object.keys(state.days).length > 0 ||
+    Object.keys(state.hunt).some(k => state.hunt[k]) ||
+    state.kills.size > 0 ||
+    state.stillActive.size > 0 ||
+    state.readyTapped ||
+    state.killsLocked;
+}
+
+function resetState(){
+  state.stickers = {};
+  state.days = {};
+  state.hunt = {};
+  state.kills = new Set();
+  state.stillActive = new Set();
+  state.phase2Open = false;
+  state.phase3Open = false;
+  state.readyTapped = false;
+  state.killsLocked = false;
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  // Restore UI to initial state
+  document.getElementById('phase-2-locked').style.display = 'block';
+  document.getElementById('phase-2-open').style.display = 'none';
+  document.getElementById('phase-3-locked').style.display = 'block';
+  document.getElementById('phase-3-open').style.display = 'none';
+  document.querySelector('[data-phase="2"]').disabled = true;
+  document.querySelector('[data-phase="3"]').disabled = true;
+  const readyBtn = document.getElementById('ready-btn');
+  readyBtn.textContent = "I'm ready — waiting for inject";
+  readyBtn.disabled = false;
+  readyBtn.style.opacity = '1';
+  const submitBtn = document.getElementById('submit-kills');
+  if (submitBtn) {
+    submitBtn.textContent = 'Lock in my three kills';
+    submitBtn.disabled = true;
+  }
+  showPhase(1);
+  renderPaths();
+  renderHunt();
+}
+// ----- end localStorage -----
+
 function escape(s){ return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+// Inline SVG skull — renders identically on iOS, Android, Chrome, Firefox, Safari, Edge
+const SKULL_SVG = '<svg viewBox="0 0 24 24" width="16" height="16" fill="#ffffff" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2C7.6 2 4 5.6 4 10c0 2.4 1.1 4.6 2.8 6.1.5.4.7 1 .7 1.6V19c0 .6.4 1 1 1h1v-2h1v2h2v-2h1v2h2v-2h1v2h1c.6 0 1-.4 1-1v-1.3c0-.6.2-1.2.7-1.6C18.9 14.6 20 12.4 20 10c0-4.4-3.6-8-8-8zm-3 9c-.8 0-1.5-.7-1.5-1.5S8.2 8 9 8s1.5.7 1.5 1.5S9.8 11 9 11zm6 0c-.8 0-1.5-.7-1.5-1.5S14.2 8 15 8s1.5.7 1.5 1.5S15.8 11 15 11zm-3 4l-1-2h2l-1 2z"/></svg>';
 
 function renderPaths(){
   const wrap = document.getElementById('path-list');
@@ -384,7 +532,7 @@ function renderPaths(){
     const sticker = state.stickers[p.id] || '';
     const days = state.days[p.id] || '';
     const stickerBtns = STICKERS.map(([key,color]) =>
-      `<button class="sticker-btn sticker-${key}${sticker===key?' selected':''}" onclick="setSticker(${p.id},'${key}')" aria-label="${key}">${key==='tomb'?'☠':''}</button>`
+      `<button class="sticker-btn sticker-${key}${sticker===key?' selected':''}" onclick="setSticker(${p.id},'${key}')" aria-label="${key} sticker">${key==='tomb'?SKULL_SVG:''}</button>`
     ).join('');
     const quickBtns = DAYS_QUICK.map(d =>
       `<button onclick="setDays(${p.id},'${d}')" class="${days===d?'active':''}">${d}</button>`
@@ -416,9 +564,16 @@ function renderHunt(){
   }).join('');
 }
 
-function setSticker(pid, key){ state.stickers[pid] = (state.stickers[pid]===key) ? null : key; renderPaths(); }
-function setDays(pid, d){ state.days[pid] = (state.days[pid]===d) ? '' : d; renderPaths(); }
-function setHunt(n, v){ state.hunt[n] = v; }
+function setSticker(pid, key){ state.stickers[pid] = (state.stickers[pid]===key) ? null : key; renderPaths(); saveState(); }
+function setDays(pid, d){ state.days[pid] = (state.days[pid]===d) ? '' : d; renderPaths(); saveState(); }
+
+let huntSaveTimer = null;
+function setHunt(n, v){
+  state.hunt[n] = v;
+  // Debounce hunt input — don't write on every keystroke
+  clearTimeout(huntSaveTimer);
+  huntSaveTimer = setTimeout(saveState, 400);
+}
 
 function markReady(){
   const btn = document.getElementById('ready-btn');
@@ -426,6 +581,8 @@ function markReady(){
   btn.disabled = true;
   btn.style.opacity = '0.6';
   document.querySelector('[data-phase="2"]').disabled = false;
+  state.readyTapped = true;
+  saveState();
 }
 
 function showPhase(n){
@@ -445,6 +602,7 @@ function unlockPhase2(){
   document.getElementById('phase-2-open').style.display = 'block';
   document.querySelector('[data-phase="2"]').disabled = false;
   showPhase(2);
+  saveState();
 }
 
 function unlockPhase3(){
@@ -453,6 +611,7 @@ function unlockPhase3(){
   document.getElementById('phase-3-open').style.display = 'block';
   document.querySelector('[data-phase="3"]').disabled = false;
   showPhase(3);
+  saveState();
 }
 
 function renderKills(){
@@ -470,9 +629,11 @@ function renderKills(){
 }
 
 function toggleKill(pid){
+  if (state.killsLocked) return; // can't change after submit
   if(state.kills.has(pid)) state.kills.delete(pid);
   else if(state.kills.size<3) state.kills.add(pid);
   renderKills();
+  saveState();
 }
 
 function updateBudget(){
@@ -483,14 +644,22 @@ function updateBudget(){
   const fill = document.getElementById('budget-fill');
   fill.style.width = Math.min(100, (used/8)*100) + '%';
   fill.classList.toggle('over', used>8);
-  document.getElementById('submit-kills').disabled = state.kills.size !== 3;
+  const btn = document.getElementById('submit-kills');
+  if (state.killsLocked) {
+    btn.textContent = '✓ Locked in';
+    btn.disabled = true;
+  } else {
+    btn.disabled = state.kills.size !== 3;
+  }
 }
 
 function submitKills(){
+  state.killsLocked = true;
   const btn = document.getElementById('submit-kills');
   btn.textContent = '✓ Locked in';
   btn.disabled = true;
   document.querySelector('[data-phase="3"]').disabled = false;
+  saveState();
 }
 
 function renderTimeLeap(){
@@ -511,6 +680,7 @@ function toggleActive(pid){
   if(state.stillActive.has(pid)) state.stillActive.delete(pid);
   else state.stillActive.add(pid);
   renderTimeLeap();
+  saveState();
 }
 
 function updateStillActive(){
@@ -518,11 +688,37 @@ function updateStillActive(){
   document.getElementById('still-active-count').textContent = state.stillActive.size + ' / ' + total;
 }
 
-// URL-based instructor unlock — append ?unlock=2 or ?unlock=3 to force-unlock from a master URL
+// ----- Initialization -----
+// 1. Load saved state from localStorage (if any)
+const hadSaved = loadState();
+
+// 2. Restore UI to reflect loaded state
+if (hadSaved) {
+  if (state.readyTapped) {
+    const readyBtn = document.getElementById('ready-btn');
+    readyBtn.textContent = '✓ Ready — waiting for inject';
+    readyBtn.disabled = true;
+    readyBtn.style.opacity = '0.6';
+    document.querySelector('[data-phase="2"]').disabled = false;
+  }
+  if (state.phase2Open) {
+    document.getElementById('phase-2-locked').style.display = 'none';
+    document.getElementById('phase-2-open').style.display = 'block';
+    document.querySelector('[data-phase="2"]').disabled = false;
+  }
+  if (state.phase3Open) {
+    document.getElementById('phase-3-locked').style.display = 'none';
+    document.getElementById('phase-3-open').style.display = 'block';
+    document.querySelector('[data-phase="3"]').disabled = false;
+  }
+}
+
+// 3. URL-based instructor unlock (overrides saved phase state)
 const params = new URLSearchParams(window.location.search);
 if(params.get('unlock')==='2') unlockPhase2();
 if(params.get('unlock')==='3') { unlockPhase2(); unlockPhase3(); }
 
+// 4. Initial render
 renderPaths();
 renderHunt();
 </script>

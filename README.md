@@ -11,6 +11,12 @@ Look at a fictional electric distribution utility three weeks after a substation
 > [!IMPORTANT]
 > **Vendor access is not temporary.** Every grant becomes permanent the moment it is signed - unless the expiration is built in before the key is turned.
 
+<p>
+  <img src="./assets/vendor_access_1.png" alt="Worksheet phase 1: classify each vendor access path with a sticker, mark its age, and hunt seven hidden risks on the network map" width="720">
+</p>
+
+*Phase 1 of the worksheet - classify each access path, mark how long it's been active, then hunt the seven hidden risks. Works on phone or laptop, light or dark mode.*
+
 ## At a glance
 
 | | |
@@ -60,7 +66,7 @@ During the lab, the instructor projects two QR codes:
 
 - **Worksheet** - <https://tonylturner.github.io/vendor-access-microlab/>
 - **Polls** - filled in by your instructor at the start of the lab
-- **Network map** - [`network_map.svg`](./network_map.svg) if you want it on your own device
+- **Network map** - [`network_map.svg`](./assets/network_map.svg) if you want it on your own device
 
 ## About the worksheet
 
